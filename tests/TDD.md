@@ -101,3 +101,7 @@ Full-suite verification exposed an asynchronous locale-switch assertion, a case-
 All 34 tests pass in the final suite (`tests/green-final.log`, ignored). The build emits 21 allowlisted files with one HTML document, matching language catalogs, both raw social JPGs and the public llms.txt/profile.md/sitemap.xml endpoints. JPEGs are verified as 1200x630 and their provenance scan reports two rasters with zero missing records. The public HTML, catalogs, scripts and text metadata contain no em dash.
 
 The user has explicitly authorized pushing to diorrego/diorrego, configuring GitHub Pages from main at `/`, and completing the repository description, homepage, topics and README. This authorization supersedes the earlier local-only publication boundary.
+
+## Final finish review
+
+The independent Impeccable reviewer returned `ship` after the final desktop/mobile/Spanish captures were refreshed. Its full review confirms persistence, the pinned terminal-in-space world, fixed mobile navigation, explicit qualified SEM results, raw social previews and public metadata endpoints. No material fixes remain at that review scope. Capture artifacts are retained only in ignored review storage.
