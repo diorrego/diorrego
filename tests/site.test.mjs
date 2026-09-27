@@ -288,3 +288,36 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(edgeInk,0,'the outer disk must end before all four canvas edges');
   await context.close();
  });
+
+ test('research visibly establishes scientific foundations and the Happiness Director role',async()=>{
+  const {p,context}=await page();
+  await p.locator('header').getByRole('link',{name:'Research',exact:true}).click();
+  assert.equal(new URL(p.url()).hash,'#research');
+  const text=await p.locator('#research').innerText();
+  assert.match(text,/scientific and statistical foundations/i);
+  assert.match(text,/second Happiness Management Department in Chile/);
+  assert.match(text,/Happiness Director/);
+  assert.match(text,/174/);assert.match(text,/Mann.?Whitney/);
+  assert.equal(await p.locator('#research a[href*="repositorio.udec.cl"]').count(),1);
+  assert.equal(/\bthesis\b/i.test(text),false);
+  await context.close();
+ });
+ test('research command and Spanish content describe the applied study explicitly',async()=>{
+  const {p,context}=await page();await p.goto(url+'/es/');
+  const input=p.getByRole('textbox',{name:'Comando de terminal'});
+  await input.fill('research');await input.press('Enter');
+  assert.equal(new URL(p.url()).hash,'#research');
+  const text=await p.locator('#research').innerText();
+  assert.match(text,/bases científicas y estadísticas/);
+  assert.match(text,/segunda Gerencia de Felicidad de Chile/);
+  assert.match(text,/Director de Felicidad/);
+  assert.match(text,/7,46/);assert.match(text,/7,89/);
+  assert.equal(/\btesis\b/i.test(text),false);
+  await context.close();
+ });
+ test('research and its public PDF source remain accessible without JavaScript',async()=>{
+  const {p,context}=await page({javaScriptEnabled:false});
+  assert.equal(await p.locator('#research').isVisible(),true);
+  assert.equal(await p.locator('#research a[href*="repositorio.udec.cl"]').getAttribute('href'),'https://repositorio.udec.cl/server/api/core/bitstreams/44fc5fab-5b09-49b1-b5a6-4e13c93eaa0d/content');
+  await context.close();
+ });

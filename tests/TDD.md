@@ -53,3 +53,7 @@ The user clarified that the attachment is reference only and the artwork must be
 ## Complete responsive framing RED → GREEN
 
 The user identified cropped outer matter, particularly on mobile, and requested additional separation from the terminal. A new test checks that the canvas stays inside viewports from 320 to 1920px and that all four edges retain a transparent five-pixel margin. The implementation fits the complete tilted disk bounds, softly terminates its outer wisps inside those bounds, and increases desktop/mobile spacing.
+
+## Explicit applied research RED
+
+The user asked to foreground the 2018 wellbeing work as research and the foundation of scientific/statistical practice, including helping establish Chile's second Happiness Management Department and serving as Happiness Director. Tests first require a dedicated visible section, real PDF source, English/Spanish research framing and terminal navigation, independent of the education disclosure.
