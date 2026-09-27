@@ -6,8 +6,8 @@ The website is English-first, with Spanish available through its language contro
 
 ## Profile
 
-- [Public profile and project notes](https://diorrego.github.io/diorrego/profile.md): Career timeline, product work, skills and structural equation modeling results.
-- [Interactive portfolio](https://diorrego.github.io/diorrego/): Bilingual project cases, research and contact information.
+- [Public profile and project notes](https://diorrego.github.io/profile.md): Career timeline, product work, skills and structural equation modeling results.
+- [Interactive portfolio](https://diorrego.github.io/): Bilingual project cases, research and contact information.
 
 ## Products
 

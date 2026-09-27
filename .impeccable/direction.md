@@ -30,7 +30,7 @@ The user's pinned terminal/continuous-space choice outranks alternate identities
 
 ## Delivery contract
 
-English primary at the clean canonical URL, Spanish selected in place, exactly one HTML with JS catalogs. The public project root is `https://diorrego.github.io/diorrego/`. All implementation and technical documentation in English. No-JS English remains useful; commands are optional. Preserve nine project cases and factual dates. Test dark continuity, commands, keyboard, localization, procedural animation, reduced motion and responsive behavior before direct feature merge to main.
+English primary at the clean canonical URL, Spanish selected in place, exactly one HTML with JS catalogs. The public account root is `https://diorrego.github.io/`. All implementation and technical documentation in English. No-JS English remains useful; commands are optional. Preserve nine project cases and factual dates. Test dark continuity, commands, keyboard, localization, procedural animation, reduced motion and responsive behavior before direct feature merge to main.
 
 ## Finish
 

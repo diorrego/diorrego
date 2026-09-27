@@ -24,7 +24,7 @@ for (const language of ['en', 'es']) {
   .body{padding:30px 23px}h1{margin:0 0 24px;font-size:34px;line-height:1.3;letter-spacing:-.025em}h1 span{color:#d3a787}p{margin:0;font-size:21px;line-height:1.65;color:#9db9e7}
   #universe{position:absolute;left:445px;top:102px;width:720px;height:500px}#space-canvas{width:100%;height:100%;image-rendering:pixelated}
   footer{position:absolute;left:56px;bottom:39px;color:#8e9cb1;font-size:14px;line-height:1.9}footer span{color:#9db9e7}
-  </style></head><body><canvas id="starfield"></canvas><header><span class="brand">diorrego.</span><span class="language">${language.toUpperCase()} / portfolio</span></header><div class="terminal"><div class="bar">$ whoami</div><div class="body"><h1>Diego Orrego<span>_</span></h1><p>${role}</p></div></div><div id="universe"><canvas id="space-canvas" aria-hidden="true"></canvas></div><footer><span>${footer}</span><br>diorrego.github.io/diorrego</footer><script type="module">
+  </style></head><body><canvas id="starfield"></canvas><header><span class="brand">diorrego.</span><span class="language">${language.toUpperCase()} / portfolio</span></header><div class="terminal"><div class="bar">$ whoami</div><div class="body"><h1>Diego Orrego<span>_</span></h1><p>${role}</p></div></div><div id="universe"><canvas id="space-canvas" aria-hidden="true"></canvas></div><footer><span>${footer}</span><br>diorrego.github.io</footer><script type="module">
   import { initializeBlackHole } from './js/black-hole.js';
   import { createSpaceBackground } from './js/space-background.js';
   const background=createSpaceBackground();background.render(0);

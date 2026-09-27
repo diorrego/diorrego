@@ -261,7 +261,7 @@ async function page(options={},path='/'){const context=await browser.newContext(
  });
 
  test('black-hole rendering is generated in code without loading the reference bitmap',async()=>{
-  const {p,context}=await page({},'/diorrego/');const requests=[];
+  const {p,context}=await page();const requests=[];
   p.on('request',request=>requests.push(request.url()));await p.reload();
   await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await p.locator('#universe').getAttribute('data-procedural'),'true');
@@ -347,28 +347,28 @@ async function page(options={},path='/'){const context=await browser.newContext(
   await context.close();
  });
 
- test('GitHub Pages project root loads its assets and changes languages without URL parameters',async()=>{
-  const {p,context}=await page({},'/diorrego/');const requests=[];p.on('request',request=>requests.push(request.url()));
-  await p.goto(url+'/diorrego/');
+ test('GitHub Pages account root loads its assets and changes languages without URL parameters',async()=>{
+  const {p,context}=await page();const requests=[];p.on('request',request=>requests.push(request.url()));
+  await p.goto(url+'/');
   await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
   await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();
   await p.waitForFunction(()=>document.documentElement.lang==='es');
-  assert.equal(new URL(p.url()).pathname,'/diorrego/');assert.equal(new URL(p.url()).search,'');
-  for(const request of requests.filter(path=>/\/(js|css|locales|assets)\//.test(path)))assert.ok(new URL(request).pathname.startsWith('/diorrego/'),request);
+  assert.equal(new URL(p.url()).pathname,'/');assert.equal(new URL(p.url()).search,'');
+  for(const request of requests.filter(path=>/\/(js|css|locales|assets)\//.test(path)))assert.equal(new URL(request).pathname.startsWith('/diorrego/'),false,request);
   assert.equal(await p.locator('#research').getByRole('heading',{name:'Modelos de ecuaciones estructurales · SEM',exact:true}).count(),1);
   await context.close();
  });
 
  test('SEO metadata includes canonical URLs and English-first raw JPG social previews',async()=>{
   const {p,context}=await page();
-  const enImage='https://diorrego.github.io/diorrego/assets/og/og-en.jpg';
-  assert.equal(await p.locator('link[rel="canonical"]').getAttribute('href'),'https://diorrego.github.io/diorrego/');
+  const enImage='https://diorrego.github.io/assets/og/og-en.jpg';
+  assert.equal(await p.locator('link[rel="canonical"]').getAttribute('href'),'https://diorrego.github.io/');
   assert.equal(await p.locator('meta[property="og:image"]').getAttribute('content'),enImage);
   assert.equal(await p.locator('meta[name="twitter:card"]').getAttribute('content'),'summary_large_image');
   assert.equal(await p.locator('meta[name="twitter:image"]').getAttribute('content'),enImage);
   await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();await p.waitForFunction(()=>document.documentElement.lang==='es');
-  assert.equal(await p.locator('meta[property="og:image"]').getAttribute('content'),'https://diorrego.github.io/diorrego/assets/og/og-es.jpg');
+  assert.equal(await p.locator('meta[property="og:image"]').getAttribute('content'),'https://diorrego.github.io/assets/og/og-es.jpg');
   assert.equal(await p.locator('meta[property="og:locale"]').getAttribute('content'),'es_CL');
   for(const language of ['en','es']){
    const bytes=await readFile(`assets/og/og-${language}.jpg`);assert.equal(bytes[0],0xff);assert.equal(bytes[1],0xd8);
@@ -407,7 +407,7 @@ async function page(options={},path='/'){const context=await browser.newContext(
   const {p,context}=await page();
   assert.equal(await p.locator('footer a[href="llms.txt"]').count(),1);
   assert.equal(await p.locator('link[rel="describedby"][href="llms.txt"]').count(),1);
-  for(const prefix of ['', '/diorrego']){
+  for(const prefix of ['']){
    const response=await p.request.get(url+prefix+'/llms.txt');
    assert.equal(response.status(),200);
    assert.match(response.headers()['content-type'],/text\/plain/);
@@ -415,7 +415,7 @@ async function page(options={},path='/'){const context=await browser.newContext(
    assert.match(overview,/^# Diego Orrego\n/);
    assert.match(overview,/\n> /);
    assert.match(overview,/## Profile/);
-   assert.match(overview,/\[.*\]\(https:\/\/diorrego.github.io\/diorrego\/profile.md\)/);
+   assert.match(overview,/\[.*\]\(https:\/\/diorrego.github.io\/profile.md\)/);
    assert.match(overview,/repositorio.udec.cl/);
    assert.equal(overview.includes(String.fromCharCode(0x2014)),false);
    const profile=await p.request.get(url+prefix+'/profile.md');
@@ -430,7 +430,7 @@ async function page(options={},path='/'){const context=await browser.newContext(
 
  test('sitemap is public at the root and lists only the canonical page without parameters',async()=>{
   const {p,context}=await page();
-  for(const prefix of ['', '/diorrego']){
+  for(const prefix of ['']){
    const response=await p.request.get(url+prefix+'/sitemap.xml');
    assert.equal(response.status(),200);
    assert.match(response.headers()['content-type'],/xml/);
@@ -441,7 +441,7 @@ async function page(options={},path='/'){const context=await browser.newContext(
    },xml);
    assert.equal(parsed.error,false);
    assert.equal(parsed.namespace,'http://www.sitemaps.org/schemas/sitemap/0.9');
-   assert.deepEqual(parsed.locations,['https://diorrego.github.io/diorrego/']);
+   assert.deepEqual(parsed.locations,['https://diorrego.github.io/']);
   }
   await context.close();
  });

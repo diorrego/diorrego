@@ -182,7 +182,7 @@ The global field draws 220 seeded stars at half viewport resolution. It contains
 
 ### Language and Progressive Enhancement
 
-The public canonical URL is `https://diorrego.github.io/diorrego/`. English is the default; enabled EN/ES buttons switch languages in place without changing this URL. The same HTML localizes text, document title/language, metadata, accessibility labels and alternative text through matching JSON catalogs. The legacy `/es/` route remains a local compatibility path. Without JavaScript the English HTML stays useful and language buttons remain disabled. A failed catalog preserves the last readable language and shows an English recovery notice. The current toolbox is plain readable content beneath capabilities, not an interactive console dependency.
+The public canonical URL is `https://diorrego.github.io/`. English is the default; enabled EN/ES buttons switch languages in place without changing this URL. The same HTML localizes text, document title/language, metadata, accessibility labels and alternative text through matching JSON catalogs. The legacy `/es/` route remains a local compatibility path. Without JavaScript the English HTML stays useful and language buttons remain disabled. A failed catalog preserves the last readable language and shows an English recovery notice. The current toolbox is plain readable content beneath capabilities, not an interactive console dependency.
 
 ### Public Sharing and Machine-readable Profile
 

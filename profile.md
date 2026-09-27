@@ -2,7 +2,7 @@
 
 > Engineer, entrepreneur and product builder in Concepción, Chile. I move between business, design and code to build things people want to use.
 
-This is the public Markdown companion to [my portfolio](https://diorrego.github.io/diorrego/). The website's primary language is English, with Spanish available in place through JavaScript localization.
+This is the public Markdown companion to [my portfolio](https://diorrego.github.io/). The website's primary language is English, with Spanish available in place through JavaScript localization.
 
 ## Product work
 

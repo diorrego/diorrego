@@ -45,3 +45,7 @@ Inspect desktop and mobile in one batched round, apply fixes together, then conf
 ## Punctuation and social metadata
 
 Never use the em dash character or its HTML entity in website copy or metadata. Audit both locale catalogs and the rendered head. Commit raw 1200x630 JPG social previews for English and Spanish; English is primary. Keep canonical and social-image URLs absolute and free of query parameters.
+
+## Production hosting
+
+The canonical URL is `https://diorrego.github.io/`, with no repository path or query parameters. The account-site repository is `diorrego/diorrego.github.io`, publishing main from `/`. The profile repository `diorrego/diorrego` mirrors the source and README. Keep public indexes, metadata, social artwork and repository homepages aligned with the account root.
