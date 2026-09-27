@@ -19,7 +19,7 @@ before(async()=>{
    const path=resolve(root,'.'+((mounted==='/'||mounted==='/es')?'/index.html':mounted));
    if(!path.startsWith(root+'/')) throw Error('invalid');
    const data=await readFile(path);
-   res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.md':'text/markdown; charset=utf-8'})[extname(path)]||'application/octet-stream');
+   res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2','.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8','.md':'text/markdown; charset=utf-8'})[extname(path)]||'application/octet-stream');
    res.end(data);
   }catch{res.writeHead(404);res.end('Not found');}
  }).listen(0,'127.0.0.1');
@@ -42,7 +42,7 @@ async function canvasPixels(locator) {
   return hash>>>0;
  });
 }
-async function page(options={}){const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce',...options});context.setDefaultTimeout(5000);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url);return {p,context};}
+async function page(options={},path='/'){const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce',...options});context.setDefaultTimeout(5000);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url+path);return {p,context};}
 
  test('profile and navigation expose real projects, history and contact',async()=>{
   const {p,context}=await page();assert.equal(await p.locator('html').getAttribute('lang'),'en');assert.equal(await p.locator('h1').count(),1);
@@ -124,6 +124,7 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('[data-project]:visible').count(),9);
   assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   await p.getByRole('button',{name:'Leer en inglés',exact:true}).click();
+  await p.waitForFunction(()=>document.documentElement.lang==='en');
   assert.equal(new URL(p.url()).pathname,'/');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
   await context.close();
@@ -139,7 +140,7 @@ async function page(options={}){const context=await browser.newContext({viewport
   await p.getByRole('button',{name:'Todos',exact:true}).click();
   await p.locator('#inpla summary').click();
   assert.match(await p.locator('#inpla').innerText(),/enero de 2026/);
-  assert.match(await p.title(),/producto/);
+  assert.match(await p.title(),/producto/i);
   assert.equal(await p.locator('[data-language="es"]').getAttribute('aria-pressed'),'true');
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   assert.equal(await p.locator('body').innerText().then(t=>/\{\{/.test(t)),false);
@@ -260,7 +261,7 @@ async function page(options={}){const context=await browser.newContext({viewport
  });
 
  test('black-hole rendering is generated in code without loading the reference bitmap',async()=>{
-  const {p,context}=await page();const requests=[];
+  const {p,context}=await page({},'/diorrego/');const requests=[];
   p.on('request',request=>requests.push(request.url()));await p.reload();
   await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await p.locator('#universe').getAttribute('data-procedural'),'true');
@@ -347,7 +348,7 @@ async function page(options={}){const context=await browser.newContext({viewport
  });
 
  test('GitHub Pages project root loads its assets and changes languages without URL parameters',async()=>{
-  const {p,context}=await page();const requests=[];p.on('request',request=>requests.push(request.url()));
+  const {p,context}=await page({},'/diorrego/');const requests=[];p.on('request',request=>requests.push(request.url()));
   await p.goto(url+'/diorrego/');
   await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');

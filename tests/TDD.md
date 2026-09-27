@@ -79,3 +79,25 @@ The user authorized pushing to diorrego/diorrego and publishing main at the repo
 ## Social metadata and punctuation RED
 
 The user requires raw English/Spanish JPG previews with English primary, complete social metadata, and no em dash in website or metadata. Tests require canonical/OG/X tags, the correct localized JPG URLs, actual JPEG signatures and a punctuation audit of the HTML, both catalogs and rendered metadata.
+
+## Fixed mobile navigation RED
+
+The user's screenshots showed a menu that moved the hero and a trigger next to the wordmark. The new test first failed on the trigger position. The implementation aligns the trigger to the right and opens a fixed disclosure panel, leaving header and hero dimensions unchanged. Escape, link selection, language selection and outside clicks close the panel.
+
+## Public LLM overview RED
+
+The new test first failed because the footer had no llms.txt link. It requires the overview at the local root and GitHub Pages project root, text/plain delivery, the official Markdown outline, a public research source and an accessible public profile companion. No query parameters or private documents are used.
+
+## Canonical sitemap RED
+
+A new public-endpoint test first received 404 for sitemap.xml. The static XML now uses the Sitemap 0.9 namespace and lists the single canonical portfolio URL. Spanish shares the same document and URL, so no duplicate locale route or query URL is listed.
+
+## Final harness corrections
+
+Full-suite verification exposed an asynchronous locale-switch assertion, a case-sensitive title assertion and a delayed favicon request from a preceding navigation. The checks now await the language update, compare the intended title without case sensitivity and start the project-hosting test at the project mount. Public behavior requirements remain unchanged.
+
+## Publication GREEN
+
+All 34 tests pass in the final suite (`tests/green-final.log`, ignored). The build emits 21 allowlisted files with one HTML document, matching language catalogs, both raw social JPGs and the public llms.txt/profile.md/sitemap.xml endpoints. JPEGs are verified as 1200x630 and their provenance scan reports two rasters with zero missing records. The public HTML, catalogs, scripts and text metadata contain no em dash.
+
+The user has explicitly authorized pushing to diorrego/diorrego, configuring GitHub Pages from main at `/`, and completing the repository description, homepage, topics and README. This authorization supersedes the earlier local-only publication boundary.
