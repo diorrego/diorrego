@@ -28,7 +28,7 @@ Public project stories, capabilities, timeline, education and direct contact. Lo
 
 ## Brand Commitments
 
-Diego Orrego. The user pinned an abstract pixel, space and programming theme, including stars, planets, black holes and animations. Technical implementation, comments, tests and commits are English. Visitor-facing copy is bilingual with English primary.
+Diego Orrego. The user pinned a terminal-like interface inside continuous space across the entire website: dark surfaces, stars, planets, black holes and abstract pixels. White/light section backgrounds, green accents and lime blocks were explicitly rejected. Technical implementation, comments, tests and commits are English. Visitor-facing copy is bilingual with English primary.
 
 ## Evidence on Hand
 

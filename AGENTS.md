@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Build Diego Orrego's personal portfolio around product creation and entrepreneurship. Preserve the user-pinned abstract pixel, space and programming identity. The primary website language is English at `/`; Spanish is available at `/es/` through JavaScript catalogs and the same HTML document.
+Build Diego Orrego's personal portfolio around product creation and entrepreneurship. Preserve the user-pinned terminal-in-space identity across the entire website. Never reintroduce white/light section backgrounds, green accents or lime contact blocks. Space is the continuous environment, not one isolated hero decoration. The primary website language is English at `/`; Spanish is available at `/es/` through JavaScript catalogs and the same HTML document.
 
 ## Language
 

@@ -27,3 +27,7 @@ The build produces 15 allowlisted files with exactly one HTML document and both 
 The independent impeccable reviewer initially requested hierarchy and provenance fixes. Both were corrected, regression checks passed, and the verdict pass scored both resolved with disposition `ship` at that fix-list scope. The mechanical detector ran once and returned no regex findings; parser coverage was degraded, so it is not treated as a complete audit.
 
 Final commits and merge are performed only after GREEN. No pull requests, remote pushes or publication are part of this work.
+
+## Terminal-in-space redesign RED
+
+The user rejected the light reading fields and green accents, and pinned a terminal-like interface inside continuous space across the whole website. Tests were changed before the redesign. The local `red-terminal.log` records failures for the old marketing heading, light surfaces, missing fixed starfield, missing command input and missing localized command recovery. Existing project, language, accessibility and no-JS contracts remain in place.

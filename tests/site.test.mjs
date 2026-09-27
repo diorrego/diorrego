@@ -32,7 +32,7 @@ async function page(options={}){const context=await browser.newContext({viewport
 
  test('profile and navigation expose real projects, history and contact',async()=>{
   const {p,context}=await page();assert.equal(await p.locator('html').getAttribute('lang'),'en');assert.equal(await p.locator('h1').count(),1);
-  assert.match(await p.locator('h1').innerText(),/idea.*product/s);
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   assert.match(await p.locator('main').innerText(),/Diego Orrego/);
   await p.locator('header').getByRole('link',{name:'Projects',exact:true}).click();assert.equal(new URL(p.url()).hash,'#projects');
   assert.equal(await p.locator('a[href="mailto:diego@woku.app"]').count()>0,true);
@@ -105,7 +105,7 @@ async function page(options={}){const context=await browser.newContext({viewport
   await p.waitForFunction(()=>document.documentElement.lang==='es');
   assert.equal(await p.locator('html').getAttribute('lang'),'es');
   assert.equal(await p.locator('[data-project]:visible').count(),9);
-  assert.match(await p.locator('h1').innerText(),/idea.*producto/s);
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   await p.getByRole('link',{name:'Leer en inglés',exact:true}).click();
   assert.equal(new URL(p.url()).pathname,'/');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
@@ -133,7 +133,7 @@ async function page(options={}){const context=await browser.newContext({viewport
  test('Spanish route preserves useful English fallback when JavaScript is disabled',async()=>{
   const {p,context}=await page({javaScriptEnabled:false});await p.goto(url+'/es/');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
-  assert.match(await p.locator('h1').innerText(),/idea.*product/s);
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   assert.equal(await p.locator('[data-project]:visible').count(),9);
   await context.close();
  });
@@ -169,8 +169,43 @@ async function page(options={}){const context=await browser.newContext({viewport
   await p.route('**/locales/es.json',route=>route.abort());await p.goto(url+'/es/');
   await p.locator('#locale-status').waitFor({state:'visible'});
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
-  assert.match(await p.locator('h1').innerText(),/idea.*product/s);
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   assert.match(await p.locator('#locale-status').innerText(),/Reload to try again/);
   assert.equal(await p.getByRole('button',{name:'Pause animations'}).isVisible(),true);
+  await context.close();
+ });
+
+ test('the whole site stays in dark space without light or green section surfaces',async()=>{
+  const {p,context}=await page();
+  const colors=await p.locator('main section,.project-feature,.contact').evaluateAll(elements=>elements.map(element=>getComputedStyle(element).backgroundColor));
+  for(const color of colors){
+   const [r,g,b,a=1]=(color.match(/[\d.]+/g)||[]).map(Number);
+   if(a===0)continue;
+   assert.ok(Math.max(r,g,b)<70,`unexpected light surface ${color}`);
+   assert.ok(!(g>r+25&&g>b+25),`unexpected green surface ${color}`);
+  }
+  assert.equal(await p.locator('#starfield').count(),1);
+  assert.equal(await p.locator('#starfield').evaluate(element=>getComputedStyle(element).position),'fixed');
+  await p.locator('#contact').scrollIntoViewIfNeeded();
+  assert.equal(await p.locator('#starfield').evaluate(element=>element.getBoundingClientRect().top),0);
+  await context.close();
+ });
+ test('terminal commands navigate to real content and recover from unknown commands',async()=>{
+  const {p,context}=await page();
+  const input=p.getByRole('textbox',{name:'Terminal command'});
+  await input.fill('ls projects');await input.press('Enter');
+  assert.equal(new URL(p.url()).hash,'#projects');
+  await input.fill('unknown');await input.press('Enter');
+  assert.match(await p.locator('#terminal-output').innerText(),/Unknown command/);
+  await input.fill('help');await input.press('Enter');
+  assert.match(await p.locator('#terminal-output').innerText(),/whoami.*projects.*journey/s);
+  await context.close();
+ });
+ test('terminal command feedback is localized and cannot execute arbitrary code',async()=>{
+  const {p,context}=await page();await p.goto(url+'/es/');
+  const input=p.getByRole('textbox',{name:'Comando de terminal'});
+  await input.fill('window.location = "https://example.com"');await input.press('Enter');
+  assert.equal(new URL(p.url()).origin,url);
+  assert.match(await p.locator('#terminal-output').innerText(),/Comando desconocido/);
   await context.close();
  });
