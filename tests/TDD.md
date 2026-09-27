@@ -57,3 +57,7 @@ The user identified cropped outer matter, particularly on mobile, and requested 
 ## Explicit applied research RED
 
 The user asked to foreground the 2018 wellbeing work as research and the foundation of scientific/statistical practice, including helping establish Chile's second Happiness Management Department and serving as Happiness Director. Tests first require a dedicated visible section, real PDF source, English/Spanish research framing and terminal navigation, independent of the education disclosure.
+
+## SEM emphasis RED
+
+A dedicated heading check first fails until the research explicitly foregrounds Structural Equation Modeling (SEM) in both English and Spanish.

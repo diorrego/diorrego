@@ -321,3 +321,11 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#research a[href*="repositorio.udec.cl"]').getAttribute('href'),'https://repositorio.udec.cl/server/api/core/bitstreams/44fc5fab-5b09-49b1-b5a6-4e13c93eaa0d/content');
   await context.close();
  });
+
+ test('SEM is explicitly highlighted as the research statistical foundation',async()=>{
+  const {p,context}=await page();
+  assert.equal(await p.locator('#research').getByRole('heading',{name:'Structural equation modeling · SEM',exact:true}).count(),1);
+  await p.goto(url+'/es/');await p.waitForFunction(()=>document.documentElement.lang==='es');
+  assert.equal(await p.locator('#research').getByRole('heading',{name:'Modelos de ecuaciones estructurales · SEM',exact:true}).count(),1);
+  await context.close();
+ });
