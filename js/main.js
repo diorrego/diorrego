@@ -1,4 +1,6 @@
 import { initializeLocale, t, locale } from './i18n.js';
+import { initializeTerminal } from './terminal.js';
+import { createSpaceBackground } from './space-background.js';
 
 await initializeLocale();
 
@@ -65,9 +67,12 @@ copyButton.addEventListener('click', async () => {
   }
 });
 
+initializeTerminal(t);
+
+const space = createSpaceBackground();
 const universe = document.querySelector('#universe');
 const canvas = document.querySelector('#space-canvas');
-const context = canvas.getContext('2d', { alpha: false });
+const context = canvas.getContext('2d', { alpha: true });
 const motionButton = document.querySelector('#motion-toggle');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -75,8 +80,8 @@ if (context) {
   universe.classList.add('has-canvas');
   motionButton.hidden = false;
   const background = document.createElement('canvas');
-  const backgroundContext = background.getContext('2d', { alpha: false });
-  const palette = ['#ffaf94', '#e88b70', '#c8766a', '#f1c4a8', '#d5b4ba', '#acc7d5'];
+  const backgroundContext = background.getContext('2d', { alpha: true });
+  const palette = ['#b7cee2', '#cda787', '#9b8090', '#dfb49b', '#889bb5', '#a5bacb'];
   let width = 0, height = 0, centerX = 0, centerY = 0, scale = 1;
   let paused = false, inView = true, frame = 0, time = 0, previous = 0;
   let pointerX = 0, pointerY = 0, offsetX = 0, offsetY = 0;
@@ -107,6 +112,7 @@ if (context) {
     centerX = width * 0.53;
     centerY = height * 0.46;
     scale = Math.min(width, height) / 185;
+    space.resize();
     drawBackground();
     render();
   }
@@ -125,8 +131,7 @@ if (context) {
     }
   }
   function drawBackground() {
-    backgroundContext.fillStyle = '#101722';
-    backgroundContext.fillRect(0, 0, width, height);
+    backgroundContext.clearRect(0, 0, width, height);
     const random = seededRandom(9001);
     const starCount = Math.min(150, Math.round(width * height / 270));
     for (let i = 0; i < starCount; i++) {
@@ -164,6 +169,7 @@ if (context) {
     }
   }
   function render() {
+    context.clearRect(0, 0, width, height);
     context.drawImage(background, 0, 0);
     offsetX += (pointerX - offsetX) * 0.035;
     offsetY += (pointerY - offsetY) * 0.035;
@@ -183,7 +189,7 @@ if (context) {
     ring(true);
   }
   function canAnimate() {
-    return !paused && !reducedMotion.matches && inView && !document.hidden;
+    return !paused && !reducedMotion.matches && !document.hidden;
   }
   function animate(timestamp) {
     frame = 0;
@@ -192,7 +198,8 @@ if (context) {
     if (!previous || timestamp - previous >= 32) {
       time += previous ? Math.min((timestamp - previous) / 1000, 0.06) : 0;
       previous = timestamp;
-      render();
+      space.render(time);
+      if (inView) render();
     }
     frame = requestAnimationFrame(animate);
   }
@@ -202,11 +209,15 @@ if (context) {
     previous = 0;
     const reduced = reducedMotion.matches;
     universe.dataset.motion = reduced ? 'reduced' : paused ? 'paused' : 'running';
+    space.setMotion(universe.dataset.motion);
     motionButton.disabled = reduced;
     motionButton.setAttribute('aria-pressed', String(paused || reduced));
-    motionButton.querySelector('span').textContent = t(reduced ? 'motion.reduced' : paused ? 'motion.resume' : 'motion.pause');
+    const motionLabel = t(reduced ? 'motion.reduced' : paused ? 'motion.resume' : 'motion.pause');
+    motionButton.querySelector('span').textContent = motionLabel;
+    motionButton.setAttribute('aria-label', motionLabel);
     motionButton.querySelector('path').setAttribute('d', paused ? 'm8 5 11 7-11 7Z' : 'M8 5v14M16 5v14');
-    render();
+    space.render(time);
+    if (inView) render();
     if (canAnimate()) frame = requestAnimationFrame(animate);
   }
   motionButton.addEventListener('click', () => { paused = !paused; syncMotion(); });

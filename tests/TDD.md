@@ -35,3 +35,9 @@ The user rejected the light reading fields and green accents, and pinned a termi
 ## Profile corrections RED
 
 Additional tests first failed for the missing X links and the outdated toolbox. The implementation adds X in the introduction and footer, and updates the tool list exactly to the user's declarations. The dedicated failing output is retained locally in `red-profile-corrections.log`.
+
+## Terminal redesign GREEN
+
+All 19 tests pass for the corrected terminal-in-space surface. Coverage includes continuous dark section surfaces, the fixed cosmic backdrop below the hero, real and localized command navigation, unknown-command recovery, safe input handling, X links and the current declared toolbox, plus all prior language, accessibility, keyboard, responsive and fallback contracts.
+
+The independent finish reviewer returned `ship` for the complete corrected surface, with no material fixes. The visible background below the hero is confirmed by additional journey/contact viewport captures. The detector ran once with degraded parser coverage; its findings were solely mismatches against the intentionally superseded design record, which is replaced at finish.

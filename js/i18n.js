@@ -43,6 +43,11 @@ export async function initializeLocale() {
       'menu.open': 'Open menu', 'menu.close': 'Close menu',
       'motion.pause': 'Pause animations', 'motion.resume': 'Resume animations', 'motion.reduced': 'Reduced motion',
       'filter.count': '{count} projects shown.', 'filter.single': '1 project shown.',
+      'terminal.help': 'Commands: whoami · ls projects · skills · git log / journey · about · contact. These commands explore the portfolio; they do not run system code.',
+      'terminal.unknown': 'Unknown command. Type help to see available commands.',
+      'terminal.opened': 'Opened {section}.',
+      'terminal.profile': 'Profile', 'terminal.projects': 'Projects', 'terminal.skills': 'Capabilities',
+      'terminal.journey': 'Journey', 'terminal.about': 'About', 'terminal.contact': 'Contact',
       'contact.copied': 'Email copied.',
       'contact.copy_unavailable': 'Copy is unavailable. Select the email address above, or use the email link.'
     };

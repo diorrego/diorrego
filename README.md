@@ -1,6 +1,6 @@
-# Diego Orrego — Product observatory
+# Diego Orrego — Terminal in space
 
-A bilingual personal portfolio built with semantic HTML, CSS and vanilla JavaScript. Abstract pixel space, a procedural black hole and planets, real project stories, capabilities, a career timeline and direct contact.
+A bilingual personal portfolio built with semantic HTML, CSS and vanilla JavaScript. A continuous dark space environment, a working portfolio command line, procedural black hole and planets, real project stories, capabilities, career timeline and direct contact. No light section backgrounds or green accents.
 
 ## Run locally
 
@@ -25,7 +25,7 @@ Tests cover navigation, filtering, factual dates, motion controls, reduced motio
 
 ## Internationalization
 
-Exactly one `index.html`. The English base content is progressively translated using `locales/en.json` and `locales/es.json`, including accessibility labels, metadata and control messages. Code examples remain English. The main route is `/`; the Spanish route is `/es/`. Both routes retain English content without JavaScript.
+Exactly one `index.html`. The English base content is progressively translated using `locales/en.json` and `locales/es.json`, including accessibility labels, metadata and control messages. Code examples and terminal commands remain English. The main route is `/`; the Spanish route is `/es/`. Both routes retain English content without JavaScript.
 
 The development server rewrites `/es/` to the same document. Production hosting must do the same. `_redirects` includes 200 rewrites for hosts supporting Netlify syntax; configure the equivalent route on other hosts. No site has been published. A public domain has not been set, so absolute canonical and social-image URLs are deliberately not fabricated.
 
@@ -35,11 +35,15 @@ The original career research remains local in the Git-ignored `documentos/` dire
 
 Edit the English HTML fallback and its corresponding English/Spanish catalog entries together. Public labels use `data-i18n`; translated attributes use `data-i18n-aria-label` and `data-i18n-content`. Dynamic messages use the same catalogs.
 
+## Portfolio commands
+
+Use `help`, `whoami`, `ls projects`, `skills`, `git log`, `journey`, `about` and `contact` to navigate real sections. Unknown commands show localized recovery. The implementation uses a fixed route table and text output; it does not evaluate input or execute system commands. Normal navigation remains available.
+
 ## Design and motion
 
-`PRODUCT.md` records product facts; `DESIGN.md` records the implemented system. The canvas is intentionally low resolution for crisp pixels and bounded rendering work. Static stars and planets are cached; the orbit is time-based, capped at 30 fps, and paused for reduced motion, hidden tabs and offscreen scenes. The visitor can pause it manually.
+`PRODUCT.md` records product facts; `DESIGN.md` records the implemented system. The canvas is intentionally low resolution for crisp pixels and bounded rendering work. A fixed starfield remains behind every section. Global space and the time-based orbit share a capped 30 fps clock, reduced-motion and hidden-tab handling. Offscreen orbit rendering pauses while the visible global backdrop continues. The visitor can pause the entire environment manually.
 
-Chakra Petch, Manrope and Pixelify Sans are self-hosted with their OFL licenses in `assets/fonts/`. No analytics or runtime third-party requests are included.
+JetBrains Mono is self-hosted with its OFL license in `assets/fonts/`. No analytics or runtime third-party requests are included.
 
 ## Git workflow
 

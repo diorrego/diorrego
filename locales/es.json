@@ -1,5 +1,5 @@
 {
-  "meta.title": "Diego Orrego — De una idea a un producto",
+  "meta.title": "Diego Orrego — Creador de producto / terminal",
   "nav.skip": "Saltar al contenido",
   "nav.projects": "Proyectos",
   "nav.capabilities": "Qué hago",
@@ -12,7 +12,7 @@
   "hero.intro.start": "Soy",
   "hero.role": "Ingeniero, emprendedor y creador de producto.",
   "hero.description": "Me muevo entre negocio, diseño y código para construir cosas que las personas quieran usar.",
-  "hero.cta": "Explorar mis proyectos",
+  "hero.cta": "Abrir proyectos",
   "hero.scene.caption": "Un universo en construcción.",
   "motion.pause": "Pausar animaciones",
   "hero.founder": "Fundador & CTO en",
@@ -147,5 +147,17 @@
   "contact.copy_unavailable": "No se pudo copiar. Selecciona el correo de arriba o usa el enlace para escribir.",
   "language.label": "Idioma",
   "language.english": "Leer en inglés",
-  "language.spanish": "Leer en español"
+  "language.spanish": "Leer en español",
+  "terminal.label": "Comando de terminal",
+  "terminal.execute": "Ejecutar comando",
+  "terminal.hint": "Escribe help o usa los enlaces. No es necesario escribir comandos.",
+  "terminal.help": "Comandos: whoami · ls projects · skills · git log / journey · about · contact. Exploran el portafolio; no ejecutan código del sistema.",
+  "terminal.unknown": "Comando desconocido. Escribe help para ver los comandos disponibles.",
+  "terminal.opened": "Se abrió {section}.",
+  "terminal.profile": "Perfil",
+  "terminal.projects": "Proyectos",
+  "terminal.skills": "Capacidades",
+  "terminal.journey": "Trayectoria",
+  "terminal.about": "Sobre mí",
+  "terminal.contact": "Contacto"
 }
