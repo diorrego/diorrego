@@ -1,4 +1,4 @@
-import { test, before, after } from 'node:test';
+import { test, before, after, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
@@ -14,10 +14,12 @@ before(async()=>{
  server=createServer(async(req,res)=>{
   try {
    const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
-   const path=resolve(root,'.'+((pathname==='/'||pathname==='/es/')?'/index.html':pathname));
+   let mounted=pathname.startsWith('/diorrego/')?pathname.slice('/diorrego'.length):pathname;
+   if(mounted.startsWith('/es/'))mounted=mounted.slice(3)||'/';
+   const path=resolve(root,'.'+((mounted==='/'||mounted==='/es')?'/index.html':mounted));
    if(!path.startsWith(root+'/')) throw Error('invalid');
    const data=await readFile(path);
-   res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2'})[extname(path)]||'application/octet-stream');
+   res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2','.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8','.md':'text/markdown; charset=utf-8'})[extname(path)]||'application/octet-stream');
    res.end(data);
   }catch{res.writeHead(404);res.end('Not found');}
  }).listen(0,'127.0.0.1');
@@ -27,12 +29,24 @@ before(async()=>{
  const executablePath=process.env.CHROME_TEST_BIN||(existsSync(bundled)?bundled:existsSync('/opt/google/chrome/chrome')?'/opt/google/chrome/chrome':bundled);
  browser=await chromium.launch({headless:true,executablePath});
 });
+afterEach(async()=>{for(const context of browser?.contexts()||[])await context.close();});
 after(async()=>{await browser?.close(); await new Promise(r=>server?.close(r));});
-async function page(options={}){const context=await browser.newContext({viewport:{width:1440,height:1000},...options});context.setDefaultTimeout(1500);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url);return {p,context};}
+async function canvasPixels(locator) {
+ return locator.evaluate(canvas=>{
+  let pixels;
+  const gl=canvas.getContext('webgl');
+  if(gl){ pixels=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels); }
+  else pixels=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+  let hash=2166136261;
+  for(let i=0;i<pixels.length;i++)hash=Math.imul(hash^pixels[i],16777619);
+  return hash>>>0;
+ });
+}
+async function page(options={},path='/'){const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce',...options});context.setDefaultTimeout(5000);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url+path);return {p,context};}
 
  test('profile and navigation expose real projects, history and contact',async()=>{
   const {p,context}=await page();assert.equal(await p.locator('html').getAttribute('lang'),'en');assert.equal(await p.locator('h1').count(),1);
-  assert.match(await p.locator('h1').innerText(),/idea.*product/s);
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   assert.match(await p.locator('main').innerText(),/Diego Orrego/);
   await p.locator('header').getByRole('link',{name:'Projects',exact:true}).click();assert.equal(new URL(p.url()).hash,'#projects');
   assert.equal(await p.locator('a[href="mailto:diego@woku.app"]').count()>0,true);
@@ -50,16 +64,19 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#inpla details').getAttribute('open'),'');
   await context.close();
  });
- test('animation supports manual pause and respects reduced motion',async()=>{
-  const {p,context}=await page();
-  await p.getByRole('button',{name:'Pause animations'}).click();
-  assert.equal(await p.locator('#universe').getAttribute('data-motion'),'paused');
-  assert.equal(await p.getByRole('button',{name:'Resume animations'}).getAttribute('aria-pressed'),'true');
-  await p.getByRole('button',{name:'Resume animations'}).click();assert.equal(await p.locator('#universe').getAttribute('data-motion'),'running');
+ test('procedural black hole animates without a pause control and respects reduced motion',async()=>{
+  const {p,context}=await page({reducedMotion:'no-preference'});
+  assert.equal(await p.locator('#motion-toggle').count(),0);
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  assert.equal(await p.locator('#universe').getAttribute('data-motion'),'running');
+  const first=await canvasPixels(p.locator('#space-canvas'));await p.waitForTimeout(600);
+  const second=await canvasPixels(p.locator('#space-canvas'));assert.notEqual(first,second);
   await context.close();
   const reduced=await page({reducedMotion:'reduce'});
+  await reduced.p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await reduced.p.locator('#universe').getAttribute('data-motion'),'reduced');
-  assert.equal(await reduced.p.getByRole('button',{name:'Reduced motion'}).isDisabled(),true);
+  const still=await canvasPixels(reduced.p.locator('#space-canvas'));await reduced.p.waitForTimeout(400);
+  const stillLater=await canvasPixels(reduced.p.locator('#space-canvas'));assert.equal(still,stillLater);
   await reduced.context.close();
  });
  test('mobile menu, keyboard navigation and overflow from 320px',async()=>{
@@ -100,13 +117,14 @@ async function page(options={}){const context=await browser.newContext({viewport
  test('English is the primary route and JavaScript localizes the shared HTML into Spanish',async()=>{
   const {p,context}=await page();
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
-  await p.getByRole('link',{name:'Read in Spanish',exact:true}).click();
-  assert.equal(new URL(p.url()).pathname,'/es/');
+  await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();
+  assert.equal(new URL(p.url()).pathname,'/');
   await p.waitForFunction(()=>document.documentElement.lang==='es');
   assert.equal(await p.locator('html').getAttribute('lang'),'es');
   assert.equal(await p.locator('[data-project]:visible').count(),9);
-  assert.match(await p.locator('h1').innerText(),/idea.*producto/s);
-  await p.getByRole('link',{name:'Leer en inglés',exact:true}).click();
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
+  await p.getByRole('button',{name:'Leer en inglés',exact:true}).click();
+  await p.waitForFunction(()=>document.documentElement.lang==='en');
   assert.equal(new URL(p.url()).pathname,'/');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
   await context.close();
@@ -122,9 +140,8 @@ async function page(options={}){const context=await browser.newContext({viewport
   await p.getByRole('button',{name:'Todos',exact:true}).click();
   await p.locator('#inpla summary').click();
   assert.match(await p.locator('#inpla').innerText(),/enero de 2026/);
-  assert.match(await p.title(),/producto/);
-  assert.equal(await p.locator('link[rel="alternate"][hreflang="en"]').getAttribute('href'),'/');
-  assert.equal(await p.locator('link[rel="alternate"][hreflang="es"]').getAttribute('href'),'/es/');
+  assert.match(await p.title(),/producto/i);
+  assert.equal(await p.locator('[data-language="es"]').getAttribute('aria-pressed'),'true');
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   assert.equal(await p.locator('body').innerText().then(t=>/\{\{/.test(t)),false);
   await context.close();
@@ -133,7 +150,7 @@ async function page(options={}){const context=await browser.newContext({viewport
  test('Spanish route preserves useful English fallback when JavaScript is disabled',async()=>{
   const {p,context}=await page({javaScriptEnabled:false});await p.goto(url+'/es/');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
-  assert.match(await p.locator('h1').innerText(),/idea.*product/s);
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   assert.equal(await p.locator('[data-project]:visible').count(),9);
   await context.close();
  });
@@ -169,8 +186,262 @@ async function page(options={}){const context=await browser.newContext({viewport
   await p.route('**/locales/es.json',route=>route.abort());await p.goto(url+'/es/');
   await p.locator('#locale-status').waitFor({state:'visible'});
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
-  assert.match(await p.locator('h1').innerText(),/idea.*product/s);
+  assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   assert.match(await p.locator('#locale-status').innerText(),/Reload to try again/);
-  assert.equal(await p.getByRole('button',{name:'Pause animations'}).isVisible(),true);
+  assert.equal(await p.locator('#motion-toggle').count(),0);
+  await context.close();
+ });
+
+ test('the whole site stays in dark space without light or green section surfaces',async()=>{
+  const {p,context}=await page();
+  const colors=await p.locator('main section,.project-feature,.contact').evaluateAll(elements=>elements.map(element=>getComputedStyle(element).backgroundColor));
+  for(const color of colors){
+   const [r,g,b,a=1]=(color.match(/[\d.]+/g)||[]).map(Number);
+   if(a===0)continue;
+   assert.ok(Math.max(r,g,b)<70,`unexpected light surface ${color}`);
+   assert.ok(!(g>r+25&&g>b+25),`unexpected green surface ${color}`);
+  }
+  assert.equal(await p.locator('#starfield').count(),1);
+  assert.equal(await p.locator('#starfield').evaluate(element=>getComputedStyle(element).position),'fixed');
+  await p.locator('#contact').scrollIntoViewIfNeeded();
+  assert.equal(await p.locator('#starfield').evaluate(element=>element.getBoundingClientRect().top),0);
+  await context.close();
+ });
+ test('terminal commands navigate to real content and recover from unknown commands',async()=>{
+  const {p,context}=await page();
+  const input=p.getByRole('textbox',{name:'Terminal command'});
+  await input.fill('ls projects');await input.press('Enter');
+  assert.equal(new URL(p.url()).hash,'#projects');
+  await input.fill('unknown');await input.press('Enter');
+  assert.match(await p.locator('#terminal-output').innerText(),/Unknown command/);
+  await input.fill('help');await input.press('Enter');
+  assert.match(await p.locator('#terminal-output').innerText(),/whoami.*projects.*journey/s);
+  await context.close();
+ });
+ test('terminal command feedback is localized and cannot execute arbitrary code',async()=>{
+  const {p,context}=await page();await p.goto(url+'/es/');
+  const input=p.getByRole('textbox',{name:'Comando de terminal'});
+  await input.fill('window.location = "https://example.com"');await input.press('Enter');
+  assert.equal(new URL(p.url()).origin,url);
+  assert.match(await p.locator('#terminal-output').innerText(),/Comando desconocido/);
+  await context.close();
+ });
+
+ test('X profile is available in the introduction and footer',async()=>{
+  const {p,context}=await page();
+  assert.equal(await p.locator('.hero-links a[href="https://x.com/diorrego"]').count(),1);
+  assert.equal(await p.locator('footer a[href="https://x.com/diorrego"]').count(),1);
+  await context.close();
+ });
+
+ test('toolbox reflects the current declared tools',async()=>{
+  const {p,context}=await page();
+  const text=await p.locator('#capabilities .tech-line').innerText();
+  assert.equal(/Python/i.test(text),false);
+  for(const tool of ['Azure','LangSmith','Orca','Claude Code','Kimi','Codex','OpenCode'])assert.ok(text.includes(tool),`missing ${tool}`);
+  await context.close();
+ });
+
+ test('the procedural black hole occupies two thirds of the desktop hero without project overlays',async()=>{
+  const {p,context}=await page();
+  const ratio=await p.evaluate(()=>document.querySelector('#universe').getBoundingClientRect().width/document.querySelector('.hero').getBoundingClientRect().width);
+  assert.ok(ratio>=.64&&ratio<=.70,`hero art ratio ${ratio}`);
+  assert.equal(await p.locator('#universe .orbit-node').count(),0);
+  assert.equal(await p.locator('#universe a').count(),0);
+  assert.equal(await p.locator('#black-hole-reference').count(),0);
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.procedural==='true');
+  await context.close();
+ });
+ test('procedural geometry is a complete fallback without JavaScript',async()=>{
+  const {p,context}=await page({javaScriptEnabled:false});
+  assert.equal(await p.locator('#black-hole-fallback').isVisible(),true);
+  assert.equal(await p.locator('#universe').getAttribute('data-motion'),'static');
+  assert.equal(await p.locator('[data-project]:visible').count(),9);
+  await context.close();
+ });
+
+ test('black-hole rendering is generated in code without loading the reference bitmap',async()=>{
+  const {p,context}=await page({},'/diorrego/');const requests=[];
+  p.on('request',request=>requests.push(request.url()));await p.reload();
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  assert.equal(await p.locator('#universe').getAttribute('data-procedural'),'true');
+  assert.equal(requests.some(url=>url.includes('black-hole-pixel.png')),false);
+  assert.equal(await p.locator('#universe img').count(),0);
+  await context.close();
+ });
+
+ test('the complete animated disk keeps a transparent margin at every viewport size',async()=>{
+  const {p,context}=await page();
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  for(const width of [320,390,768,1280,1440,1920]){
+   await p.setViewportSize({width,height:1000});
+   const bounds=await p.locator('#universe').boundingBox();
+   assert.ok(bounds.x>=0&&bounds.x+bounds.width<=width+1,`art exceeds viewport at ${width}`);
+  }
+  const edgeInk=await p.locator('#space-canvas').evaluate(canvas=>{
+   let pixels;const gl=canvas.getContext('webgl');
+   if(gl){pixels=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);}
+   else pixels=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+   let count=0;
+   for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
+    if(x<5||y<5||x>=canvas.width-5||y>=canvas.height-5){if(pixels[(y*canvas.width+x)*4+3]>0)count++;}
+   }
+   return count;
+  });
+  assert.equal(edgeInk,0,'the outer disk must end before all four canvas edges');
+  await context.close();
+ });
+
+ test('research visibly establishes scientific foundations and the Happiness Director role',async()=>{
+  const {p,context}=await page();
+  await p.locator('header').getByRole('link',{name:'Research',exact:true}).click();
+  assert.equal(new URL(p.url()).hash,'#research');
+  const text=await p.locator('#research').innerText();
+  assert.match(text,/scientific and statistical foundations/i);
+  assert.match(text,/second Happiness Management Department in Chile/);
+  assert.match(text,/Happiness Director/);
+  assert.match(text,/174/);assert.match(text,/Mann.?Whitney/);
+  assert.equal(await p.locator('#research a[href*="repositorio.udec.cl"]').count(),1);
+  assert.equal(/\bthesis\b/i.test(text),false);
+  await context.close();
+ });
+ test('research command and Spanish content describe the applied study explicitly',async()=>{
+  const {p,context}=await page();await p.goto(url+'/es/');
+  const input=p.getByRole('textbox',{name:'Comando de terminal'});
+  await input.fill('research');await input.press('Enter');
+  assert.equal(new URL(p.url()).hash,'#research');
+  const text=await p.locator('#research').innerText();
+  assert.match(text,/bases científicas y estadísticas/);
+  assert.match(text,/segunda Gerencia de Felicidad de Chile/);
+  assert.match(text,/Director de Felicidad/);
+  assert.match(text,/-0,512/);assert.match(text,/-0,251/);
+  assert.equal(/(^|[^\p{L}])tesis([^\p{L}]|$)/iu.test(text),false);
+  await context.close();
+ });
+ test('research and its public PDF source remain accessible without JavaScript',async()=>{
+  const {p,context}=await page({javaScriptEnabled:false});
+  assert.equal(await p.locator('#research').isVisible(),true);
+  assert.equal(await p.locator('#research a[href*="repositorio.udec.cl"]').getAttribute('href'),'https://repositorio.udec.cl/server/api/core/bitstreams/44fc5fab-5b09-49b1-b5a6-4e13c93eaa0d/content');
+  await context.close();
+ });
+
+ test('SEM is explicitly highlighted as the research statistical foundation',async()=>{
+  const {p,context}=await page();
+  assert.equal(await p.locator('#research').getByRole('heading',{name:'Structural equation modeling · SEM',exact:true}).count(),1);
+  await p.goto(url+'/es/');await p.waitForFunction(()=>document.documentElement.lang==='es');
+  assert.equal(await p.locator('#research').getByRole('heading',{name:'Modelos de ecuaciones estructurales · SEM',exact:true}).count(),1);
+  await context.close();
+ });
+
+ test('research prioritizes all five PERMA SEM models and identifies failed global fit',async()=>{
+  const {p,context}=await page();
+  const section=p.locator('#research');
+  const text=await section.innerText();
+  assert.match(text,/global PERMA model/i);
+  assert.match(text,/did not achieve acceptable fit/i);
+  for(const value of ['-0.512','-0.481','-0.251','-0.508','-0.361'])assert.ok(text.includes(value),value);
+  for(const construct of ['Positive emotions','Engagement','Positive relationships','Meaning','Accomplishment'])assert.ok(text.includes(construct),construct);
+  assert.match(text,/RMSEA/);assert.match(text,/0.146/);
+  assert.equal(text.includes('7.46'),false);
+  assert.equal(await section.locator('tbody tr').count(),5);
+  await context.close();
+ });
+
+ test('GitHub Pages project root loads its assets and changes languages without URL parameters',async()=>{
+  const {p,context}=await page({},'/diorrego/');const requests=[];p.on('request',request=>requests.push(request.url()));
+  await p.goto(url+'/diorrego/');
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  assert.equal(await p.locator('html').getAttribute('lang'),'en');
+  await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();
+  await p.waitForFunction(()=>document.documentElement.lang==='es');
+  assert.equal(new URL(p.url()).pathname,'/diorrego/');assert.equal(new URL(p.url()).search,'');
+  for(const request of requests.filter(path=>/\/(js|css|locales|assets)\//.test(path)))assert.ok(new URL(request).pathname.startsWith('/diorrego/'),request);
+  assert.equal(await p.locator('#research').getByRole('heading',{name:'Modelos de ecuaciones estructurales · SEM',exact:true}).count(),1);
+  await context.close();
+ });
+
+ test('SEO metadata includes canonical URLs and English-first raw JPG social previews',async()=>{
+  const {p,context}=await page();
+  const enImage='https://diorrego.github.io/diorrego/assets/og/og-en.jpg';
+  assert.equal(await p.locator('link[rel="canonical"]').getAttribute('href'),'https://diorrego.github.io/diorrego/');
+  assert.equal(await p.locator('meta[property="og:image"]').getAttribute('content'),enImage);
+  assert.equal(await p.locator('meta[name="twitter:card"]').getAttribute('content'),'summary_large_image');
+  assert.equal(await p.locator('meta[name="twitter:image"]').getAttribute('content'),enImage);
+  await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();await p.waitForFunction(()=>document.documentElement.lang==='es');
+  assert.equal(await p.locator('meta[property="og:image"]').getAttribute('content'),'https://diorrego.github.io/diorrego/assets/og/og-es.jpg');
+  assert.equal(await p.locator('meta[property="og:locale"]').getAttribute('content'),'es_CL');
+  for(const language of ['en','es']){
+   const bytes=await readFile(`assets/og/og-${language}.jpg`);assert.equal(bytes[0],0xff);assert.equal(bytes[1],0xd8);
+  }
+  await context.close();
+ });
+ test('website text and metadata contain no em dash in either language',async()=>{
+  const html=await readFile('index.html','utf8');
+  const forbidden=String.fromCharCode(0x2014);
+  assert.equal(html.includes(forbidden),false);
+  for(const language of ['en','es']){
+   const data=await readFile(`locales/${language}.json`,'utf8');assert.equal(data.includes(forbidden),false);
+  }
+  const {p,context}=await page();
+  for(const language of ['en','es']){
+   if(language==='es'){await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();await p.waitForFunction(()=>document.documentElement.lang==='es');}
+   const content=await p.evaluate(()=>document.body.innerText+' '+document.title+' '+[...document.querySelectorAll('meta')].map(node=>node.content).join(' '));
+   assert.equal(content.includes(forbidden),false);
+  }
+  await context.close();
+ });
+
+ test('mobile menu overlays the page without shifting the hero and aligns its trigger right',async()=>{
+  const {p,context}=await page({viewport:{width:496,height:844}});await p.evaluate(()=>document.fonts.ready);
+  const trigger=p.getByRole('button',{name:'Open menu'});
+  const before=await p.locator('.hero').boundingBox();const buttonBounds=await trigger.boundingBox();
+  assert.ok(buttonBounds.x+buttonBounds.width>460,'menu trigger belongs on the right');
+  await trigger.click();
+  assert.equal(await p.locator('#navigation').evaluate(node=>getComputedStyle(node).position),'fixed');
+  const after=await p.locator('.hero').boundingBox();assert.equal(after.y,before.y);
+  await p.keyboard.press('Escape');assert.equal(await trigger.getAttribute('aria-expanded'),'false');
+  await context.close();
+ });
+
+ test('LLM overview is public at the site root and discoverable through the footer',async()=>{
+  const {p,context}=await page();
+  assert.equal(await p.locator('footer a[href="llms.txt"]').count(),1);
+  assert.equal(await p.locator('link[rel="describedby"][href="llms.txt"]').count(),1);
+  for(const prefix of ['', '/diorrego']){
+   const response=await p.request.get(url+prefix+'/llms.txt');
+   assert.equal(response.status(),200);
+   assert.match(response.headers()['content-type'],/text\/plain/);
+   const overview=await response.text();
+   assert.match(overview,/^# Diego Orrego\n/);
+   assert.match(overview,/\n> /);
+   assert.match(overview,/## Profile/);
+   assert.match(overview,/\[.*\]\(https:\/\/diorrego.github.io\/diorrego\/profile.md\)/);
+   assert.match(overview,/repositorio.udec.cl/);
+   assert.equal(overview.includes(String.fromCharCode(0x2014)),false);
+   const profile=await p.request.get(url+prefix+'/profile.md');
+   assert.equal(profile.status(),200);
+   assert.match(await profile.text(),/0.146/);
+  }
+  await p.locator('footer a[href="llms.txt"]').click();
+  assert.equal(new URL(p.url()).pathname,'/llms.txt');
+  assert.equal(new URL(p.url()).search,'');
+  await context.close();
+ });
+
+ test('sitemap is public at the root and lists only the canonical page without parameters',async()=>{
+  const {p,context}=await page();
+  for(const prefix of ['', '/diorrego']){
+   const response=await p.request.get(url+prefix+'/sitemap.xml');
+   assert.equal(response.status(),200);
+   assert.match(response.headers()['content-type'],/xml/);
+   const xml=await response.text();
+   const parsed=await p.evaluate(source=>{
+    const document=new DOMParser().parseFromString(source,'application/xml');
+    return {error:!!document.querySelector('parsererror'),namespace:document.documentElement.namespaceURI,locations:[...document.querySelectorAll('loc')].map(node=>node.textContent)};
+   },xml);
+   assert.equal(parsed.error,false);
+   assert.equal(parsed.namespace,'http://www.sitemaps.org/schemas/sitemap/0.9');
+   assert.deepEqual(parsed.locations,['https://diorrego.github.io/diorrego/']);
+  }
   await context.close();
  });

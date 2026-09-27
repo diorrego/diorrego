@@ -4,13 +4,15 @@ import { resolve, extname } from 'node:path';
 
 const root = resolve(new URL('..', import.meta.url).pathname);
 const allowlist = new Set((await readFile(resolve(root, 'public-files.txt'), 'utf8')).split('\n').filter(Boolean));
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.json': 'application/json; charset=utf-8' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.json': 'application/json; charset=utf-8', '.jpg': 'image/jpeg', '.txt': 'text/plain; charset=utf-8', '.md': 'text/markdown; charset=utf-8', '.xml': 'application/xml; charset=utf-8' };
 const port = Number(process.env.PORT || 4173);
 const server = createServer(async (request, response) => {
   try {
     const url = new URL(request.url, 'http://localhost');
     const pathname = decodeURIComponent(url.pathname);
-    const file = pathname === '/es/' || pathname === '/es' ? 'index.html' : pathname.replace(/^\//, '') || 'index.html';
+    let mounted = pathname.startsWith('/diorrego/') ? pathname.slice('/diorrego'.length) : pathname;
+    if (mounted.startsWith('/es/')) mounted = mounted.slice(3) || '/';
+    const file = mounted === '/es' ? 'index.html' : mounted.replace(/^\//, '') || 'index.html';
     if (!allowlist.has(file)) { response.writeHead(404); response.end('Not found'); return; }
     const content = await readFile(resolve(root, file));
     response.setHeader('Content-Type', types[extname(file)] || 'application/octet-stream');

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Build Diego Orrego's personal portfolio around product creation and entrepreneurship. Preserve the user-pinned abstract pixel, space and programming identity. The primary website language is English at `/`; Spanish is available at `/es/` through JavaScript catalogs and the same HTML document.
+Build Diego Orrego's personal portfolio around product creation and entrepreneurship. Preserve the user-pinned terminal-in-space identity across the entire website. Never reintroduce white/light section backgrounds, green accents or lime contact blocks. Space is the continuous environment, not one isolated hero decoration. The primary website language is English. Spanish uses JavaScript catalogs and the same HTML document, with in-place language controls and no URL parameters.
 
 ## Language
 
@@ -10,17 +10,17 @@ All implementation identifiers, comments, test descriptions, technical documenta
 
 ## Stack
 
-Semantic HTML, CSS and vanilla JavaScript. Keep exactly one HTML source; locale catalogs live in `locales/en.json` and `locales/es.json` with matching keys. The `/es/` route serves the same HTML and JavaScript localizes text and accessibility attributes. Without JavaScript, both routes preserve the English fallback. No frontend framework or runtime dependencies. Essential content lives in HTML; JavaScript progressively enhances interaction and animation. Self-host licensed fonts with fallbacks. Do not add analytics or external services without a specific request.
+Semantic HTML, CSS and vanilla JavaScript. Keep exactly one HTML source; locale catalogs live in `locales/en.json` and `locales/es.json` with matching keys. JavaScript localizes text and accessibility attributes in place. Without JavaScript, the document preserves the English fallback. No frontend framework or runtime dependencies. Essential content lives in HTML; JavaScript progressively enhances interaction and animation. Self-host licensed fonts with fallbacks. Do not add analytics or external services without a specific request.
 
 ## Content and privacy
 
-The local `documentos/` research documents are evidence, not public assets. The entire directory must remain ignored by Git. Never serve or publish authenticated captures, private repositories, credentials or session material. `public-files.txt` defines the public distribution explicitly; deploy `dist/` only.
+The local `documentos/` research documents are evidence, not public assets. The entire directory must remain ignored by Git. Never serve or publish authenticated captures, private repositories, credentials or session material. `public-files.txt` defines the standalone distribution explicitly. GitHub Pages is authorized to publish tracked files from main at `/`; keep all local evidence ignored and never commit it.
 
 Preserve verified facts. Inpla's role ended in January 2026. The Innovation and Technology Entrepreneurship master's program has a pending thesis. Do not invent impact metrics, testimonials, titles or roles. PRODUCT.md records product truth; DESIGN.md records the implemented design system.
 
 ## Mandatory TDD
 
-Write meaningful behavior tests before implementing each behavior, run them and observe RED, implement until GREEN, then refactor while keeping tests green. Test visitor outcomes rather than mirroring internal functions. Record evidence in `tests/TDD.md`. Cover navigation, filtering, project details, contact, keyboard access, no-JS content, reduced motion, manual animation pause, responsive overflow and public asset boundaries.
+Write meaningful behavior tests before implementing each behavior, run them and observe RED, implement until GREEN, then refactor while keeping tests green. Test visitor outcomes rather than mirroring internal functions. Record evidence in `tests/TDD.md`. Cover navigation, filtering, project details, contact, keyboard access, no-JS content, reduced motion, automatic animation lifecycle, responsive overflow and public asset boundaries.
 
 ## Local Git workflow
 
@@ -32,7 +32,7 @@ Apply the impeccable skill for interface work; explicit user instructions overri
 
 ## Animation and performance
 
-Use a bounded procedural canvas for square particles, stars, planets and the black hole. Use elapsed time with requestAnimationFrame; pause when hidden or offscreen. Respect prefers-reduced-motion in CSS and JS and provide a manual pause control. Cache static drawing and cap scene resolution and particle count. Prefer transform and opacity; avoid continuous layout, large blur or shadow animation. No flashing. The scene is abstract art, not an astronomical simulation.
+Use a bounded procedural canvas for the starfield and a dedicated procedural WebGL renderer inspired by the supplied black-hole reference. Do not load or use the reference bitmap at runtime. Preserve crisp pixel sampling; desktop art occupies two thirds of the hero. No project labels overlay the artwork. Use elapsed time with requestAnimationFrame; pause when hidden or offscreen. Respect prefers-reduced-motion in CSS and JS and do not add a visible pause control, as explicitly requested by the user. Cache static drawing and cap scene resolution and particle count. Prefer transform and opacity; avoid continuous layout, large blur or shadow animation. No flashing. The scene is abstract art, not an astronomical simulation.
 
 ## Verification
 
@@ -41,3 +41,7 @@ Inspect desktop and mobile in one batched round, apply fixes together, then conf
 ## Commands
 
 `npm run dev` serves only allowlisted public files at http://127.0.0.1:4173. `npm test` runs Playwright behavior and accessibility checks. `npm run build` creates `dist/` from the explicit public manifest. Tests require a compatible installed browser; install it with `npx playwright install chromium` when needed. Never publish or change DNS without authorization.
+
+## Punctuation and social metadata
+
+Never use the em dash character or its HTML entity in website copy or metadata. Audit both locale catalogs and the rendered head. Commit raw 1200x630 JPG social previews for English and Spanish; English is primary. Keep canonical and social-image URLs absolute and free of query parameters.

@@ -1,0 +1,28 @@
+# Diego Orrego
+
+> Engineer, entrepreneur and product builder based in Concepción, Chile. This portfolio connects product creation, software, organizational wellbeing and applied research.
+
+The website is English-first, with Spanish available through its language controls. The profile below is the public Markdown companion to the website. Research estimates describe associations with emotional exhaustion, a dimension of burnout; they do not demonstrate causal effects. Inpla's role ended in January 2026.
+
+## Profile
+
+- [Public profile and project notes](https://diorrego.github.io/diorrego/profile.md): Career timeline, product work, skills and structural equation modeling results.
+- [Interactive portfolio](https://diorrego.github.io/diorrego/): Bilingual project cases, research and contact information.
+
+## Products
+
+- [woku](https://woku.app/): Customer experience product; Diego is founder and CTO of its current stage.
+- [Inpla](https://inpla.ai/): Conversational business intelligence; Diego's cofounder role ended in January 2026.
+- [Veily](https://veily.dev/): Privacy in AI workflows.
+- [Wondeya](https://wondeya.com/): Product experiences and experimentation.
+- [Muveya](https://muveya.com/): Product exploration.
+
+## Research
+
+- [Workplace wellbeing research, Universidad de Concepción, 2018](https://repositorio.udec.cl/server/api/core/bitstreams/44fc5fab-5b09-49b1-b5a6-4e13c93eaa0d/content): Original Spanish PDF; SEM models of PERMA components and emotional exhaustion, with 174 respondents.
+
+## Optional
+
+- [Public GitHub profile](https://github.com/diorrego): Public code and development activity.
+- [LinkedIn](https://www.linkedin.com/in/diorrego/): Professional profile.
+- [X](https://x.com/diorrego): Public social profile.
