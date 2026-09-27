@@ -61,3 +61,13 @@ The user asked to foreground the 2018 wellbeing work as research and the foundat
 ## SEM emphasis RED
 
 A dedicated heading check first fails until the research explicitly foregrounds Structural Equation Modeling (SEM) in both English and Spanish.
+
+## Final research GREEN
+
+All 27 tests pass. The research is visible outside the education disclosure, accessible through navigation and commands, available without JavaScript, and consistently framed in English/Spanish as applied research and scientific/statistical foundations. SEM has a dedicated heading; the clinical leadership contribution and the public research source are explicit. Quantitative results retain sample sizes and model interpretation.
+
+The test harness closes contexts after every case, including failures, and runs ordinary functional checks with reduced motion; the dedicated animation test exercises live rendering and verifies actual canvas pixels. This avoids GPU context accumulation and timing failures unrelated to visitor behavior.
+
+## SEM model results RED
+
+The user reprioritized model results over simple annual averages. New checks require the failed global PERMA fit, all five component-level standardized associations, fit indices and the absence of the annual-mean table. The source includes positive relationships at -0.251 (p=0.013), alongside the four associations summarized in the abstract.

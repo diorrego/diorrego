@@ -1,4 +1,4 @@
-import { test, before, after } from 'node:test';
+import { test, before, after, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
@@ -27,6 +27,7 @@ before(async()=>{
  const executablePath=process.env.CHROME_TEST_BIN||(existsSync(bundled)?bundled:existsSync('/opt/google/chrome/chrome')?'/opt/google/chrome/chrome':bundled);
  browser=await chromium.launch({headless:true,executablePath});
 });
+afterEach(async()=>{for(const context of browser?.contexts()||[])await context.close();});
 after(async()=>{await browser?.close(); await new Promise(r=>server?.close(r));});
 async function canvasPixels(locator) {
  return locator.evaluate(canvas=>{
@@ -39,7 +40,7 @@ async function canvasPixels(locator) {
   return hash>>>0;
  });
 }
-async function page(options={}){const context=await browser.newContext({viewport:{width:1440,height:1000},...options});context.setDefaultTimeout(1500);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url);return {p,context};}
+async function page(options={}){const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce',...options});context.setDefaultTimeout(5000);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url);return {p,context};}
 
  test('profile and navigation expose real projects, history and contact',async()=>{
   const {p,context}=await page();assert.equal(await p.locator('html').getAttribute('lang'),'en');assert.equal(await p.locator('h1').count(),1);
@@ -62,7 +63,7 @@ async function page(options={}){const context=await browser.newContext({viewport
   await context.close();
  });
  test('procedural black hole animates without a pause control and respects reduced motion',async()=>{
-  const {p,context}=await page();
+  const {p,context}=await page({reducedMotion:'no-preference'});
   assert.equal(await p.locator('#motion-toggle').count(),0);
   await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await p.locator('#universe').getAttribute('data-motion'),'running');
@@ -311,8 +312,8 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.match(text,/bases científicas y estadísticas/);
   assert.match(text,/segunda Gerencia de Felicidad de Chile/);
   assert.match(text,/Director de Felicidad/);
-  assert.match(text,/7,46/);assert.match(text,/7,89/);
-  assert.equal(/\btesis\b/i.test(text),false);
+  assert.match(text,/-0,512/);assert.match(text,/-0,251/);
+  assert.equal(/(^|[^\p{L}])tesis([^\p{L}]|$)/iu.test(text),false);
   await context.close();
  });
  test('research and its public PDF source remain accessible without JavaScript',async()=>{
@@ -327,5 +328,19 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#research').getByRole('heading',{name:'Structural equation modeling · SEM',exact:true}).count(),1);
   await p.goto(url+'/es/');await p.waitForFunction(()=>document.documentElement.lang==='es');
   assert.equal(await p.locator('#research').getByRole('heading',{name:'Modelos de ecuaciones estructurales · SEM',exact:true}).count(),1);
+  await context.close();
+ });
+
+ test('research prioritizes all five PERMA SEM models and identifies failed global fit',async()=>{
+  const {p,context}=await page();
+  const section=p.locator('#research');
+  const text=await section.innerText();
+  assert.match(text,/global PERMA model/i);
+  assert.match(text,/did not achieve acceptable fit/i);
+  for(const value of ['-0.512','-0.481','-0.251','-0.508','-0.361'])assert.ok(text.includes(value),value);
+  for(const construct of ['Positive emotions','Engagement','Positive relationships','Meaning','Accomplishment'])assert.ok(text.includes(construct),construct);
+  assert.match(text,/RMSEA/);assert.match(text,/0.146/);
+  assert.equal(text.includes('7.46'),false);
+  assert.equal(await section.locator('tbody tr').count(),5);
   await context.close();
  });
