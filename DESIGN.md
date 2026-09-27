@@ -1,201 +1,209 @@
 ---
 name: Diego Orrego
-description: Abstract pixel observatory for a product builder
+description: A product builder's terminal in continuous space
 colors:
-  night: "#101722"
-  night-deep: "#0b111a"
-  paper: "#edf1f3"
-  ink: "#17222d"
-  muted: "#a9b6c8"
-  line: "#334151"
-  lime: "#ddf78b"
-  coral: "#ffaf94"
-  blue: "#a7cadf"
+  space: "#05070b"
+  panel: "#090e16"
+  text: "#d2dbe8"
+  muted: "#8e9cb1"
+  line: "#293244"
+  blue: "#9db9e7"
+  amber: "#d3a787"
+  error: "#e3a4a0"
+  button: "#101a2b"
+  button-hover: "#192641"
+  panel-overlay: "rgba(7, 11, 18, .9)"
 typography:
   display:
-    fontFamily: "Chakra, sans-serif"
-    fontSize: "clamp(58px, 6.2vw, 92px)"
+    fontFamily: "Terminal, monospace"
+    fontSize: "clamp(27px, 2.5vw, 33px)"
     fontWeight: 700
-    lineHeight: 1.06
-    letterSpacing: "-0.025em"
+    lineHeight: 1.35
+    letterSpacing: "-0.035em"
   headline:
-    fontFamily: "Chakra, sans-serif"
-    fontSize: "clamp(38px, 4.5vw, 64px)"
+    fontFamily: "Terminal, monospace"
+    fontSize: "21px"
     fontWeight: 700
-    lineHeight: 1.06
-    letterSpacing: "-0.025em"
+    lineHeight: 1.5
+    letterSpacing: "-0.02em"
   title:
-    fontFamily: "Chakra, sans-serif"
-    fontSize: "26px"
+    fontFamily: "Terminal, monospace"
+    fontSize: "19px"
     fontWeight: 700
-    lineHeight: 1.06
-    letterSpacing: "-0.025em"
   body:
-    fontFamily: "Manrope, sans-serif"
-    fontSize: "16px"
-    fontWeight: 400
-    lineHeight: 1.7
-  reading:
-    fontFamily: "Manrope, sans-serif"
+    fontFamily: "Terminal, monospace"
     fontSize: "14px"
     fontWeight: 400
-  pixel:
-    fontFamily: "Pixelify, sans-serif"
-    fontWeight: 700
-    letterSpacing: "-0.015em"
+    lineHeight: 1.85
+  reading:
+    fontFamily: "Terminal, monospace"
+    fontSize: "12px"
+    fontWeight: 400
+    lineHeight: 1.9
+  label:
+    fontFamily: "Terminal, monospace"
+    fontSize: "11px"
+    fontWeight: 400
 rounded:
-  control: "3px"
-  surface: "4px"
+  control: "0px"
 spacing:
   compact: "8px"
-  content: "16px"
-  group: "24px"
-  wide: "30px"
+  inline: "12px"
+  content: "20px"
+  group: "30px"
 components:
-  button-lime:
-    backgroundColor: "{colors.lime}"
-    textColor: "{colors.ink}"
+  button-primary:
+    backgroundColor: "{colors.button}"
+    textColor: "{colors.text}"
     rounded: "{rounded.control}"
-    padding: "14px 23px"
-    height: "54px"
-  button-dark:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
+    padding: "9px 16px"
+  button-primary-hover:
+    backgroundColor: "{colors.button-hover}"
+    textColor: "{colors.text}"
+  filter:
+    backgroundColor: "{colors.panel}"
+    textColor: "{colors.muted}"
     rounded: "{rounded.control}"
-    padding: "14px 23px"
-  filter-selected:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
+    padding: "8px 16px"
+  terminal-panel:
+    backgroundColor: "{colors.panel-overlay}"
+    textColor: "{colors.text}"
     rounded: "{rounded.control}"
-    padding: "8px 19px"
 ---
 
 # Design System: Diego Orrego
 
 ## Overview
 
-**Creative North Star: "Abstract pixel observatory"**
+**Creative North Star: "Terminal in continuous space"**
 
-The user-pinned pixel, space and programming identity appears as crisp square particles, stars, planets, orbital links and readable code. The dark night field supports artwork and personal context; pale reading surfaces hold project evidence and the journey. Lime provides a clear action color, while coral and pale blue carry the abstract universe.
+The portfolio is a readable terminal session within one persistent cosmic environment. Silver monospaced text, blue command paths and amber matter sit on near-black space. Stars continue behind projects, capabilities, applied research, career history, personal context and contact.
 
-The system combines large technical headings with calm prose and compact supporting labels. Pixel typography emphasizes selected heading words rather than continuous reading. Procedural motion remains optional; the content and real links remain useful without animation or JavaScript.
+Square controls and fine separators make the terminal useful for exploring real content. A fully procedural, fine-pixel black hole supplies the hero's visual weight. The user explicitly rejected light section backgrounds and green or lime accents; this replacement system supersedes the earlier observatory palette and type pairing.
 
 **Key Characteristics:**
 
-- Square pixel matter with small, restrained interface corners.
-- Dark artwork fields alternating with pale reading fields.
-- Technical display type, readable body type and selective pixel emphasis.
-- Real HTML controls around a bounded procedural scene.
+- One continuous dark space behind every section.
+- Self-hosted monospace for both reading and interface text.
+- Square controls, file-like rows and native disclosures.
+- Procedural cosmic matter with ordinary links and optional commands.
 
 ## Colors
 
-The palette combines an ink-blue night with icy reading surfaces and bright orbital accents. The frontmatter records the reusable root colors; individual product illustrations also use local colors that are not global tokens.
+The palette is subdued and cool; amber marks prompts, dates and feedback. The frontmatter owns reusable colors. Thermal oranges and violets belong to the black-hole material rather than the interface accent system.
 
 ### Primary
 
-- **Action lime:** primary project access, wordmark detail, heading emphasis and the contact field. On pale fields, green emphasis and focus use the darker local color `#476509` for legibility.
+- **Command blue:** links, file paths, input prefix, selected locale and visible focus.
 
 ### Secondary
 
-- **Orbital coral:** accretion matter, small celestial accents and dark-surface focus outlines.
-- **Atmospheric blue:** orbital identity dots and selected personal-context heading emphasis.
+- **Orbital amber:** terminal caret and dollar prompt, timeline dates, research metadata and numerical results, and polite action feedback.
 
 ### Neutral
 
-- **Night:** default page and artwork ground.
-- **Deep night:** the code window's inset field.
-- **Paper:** dark-field text and pale section backgrounds.
-- **Ink:** reading text, selected filters and the dark contact button.
-- **Muted:** supporting dark-field text.
-- **Line:** dark-field separators and code-window borders.
+- **Space:** continuous page ground beneath the fixed starfield.
+- **Panel and panel overlay:** quiet dark control fills and translucent terminal/code windows.
+- **Silver text:** primary reading and headings.
+- **Muted silver:** descriptions, annotations and navigation at rest.
+- **Structural line:** one-pixel separators and borders.
+- **Button and button hover:** restrained blue-black action fills.
+- **Error:** translation failure notice text, paired with its local dark red field.
 
-**The Reading Field Rule.** Pair paper with ink for evidence-heavy content; pair night with paper and muted text for the personal universe.
+**The Continuous Space Rule.** Every section belongs to the same near-black environment; keep section backgrounds transparent and panels dark.
 
 ## Typography
 
-**Display Font:** Chakra Petch, registered as `Chakra`, with sans-serif fallback.
-**Body Font:** Manrope, with sans-serif fallback.
-**Pixel Font:** Pixelify Sans, registered as `Pixelify`, with sans-serif fallback.
-**Code Font:** browser monospace fallback.
+**Display, Body and Code Font:** JetBrains Mono, registered as `Terminal`, with `monospace` fallback. Regular (400) and bold (700) files are self-hosted in `assets/fonts/`, preloaded and loaded with `font-display: swap`; the font license accompanies the public files.
 
-All branded faces are self-hosted with `font-display: swap`: `assets/fonts/chakra-petch-0.ttf` (700), `manrope-regular.ttf` (400), `manrope-0.ttf` (700) and `pixelify-sans-0.ttf` (700). Their license files accompany the assets.
+The type ramp is compact and technical. Weight, line height and spacing distinguish content roles without introducing a second display face.
 
 ### Hierarchy
 
-- **Display:** the single h1 follows the frontmatter ramp. At widths through 1050px it is 66px; through 760px it uses `clamp(50px, 9vw, 72px)`; through 380px it is 47px.
-- **Headline:** section h2 follows the headline ramp. The contact heading uses a separate `clamp(43px, 4.7vw, 68px)` ramp.
-- **Title:** h3 defaults to the title token; featured project names are 48px on desktop and 40px on mobile. Timeline headings are 22px, then 19px on mobile.
-- **Body:** default reading inherits the body token. Case descriptions, details, capabilities, education and personal copy use the reading size; mobile timeline copy is 13px. Introductory prose and project leads are larger.
-- **Supporting labels:** role/date labels are 11px. Small illustration captions and ancillary metadata remain compact; they are not a reading-text model.
+- **Display:** the single hero h1 follows the frontmatter ramp; mobile uses `clamp(26px, 7vw, 36px)`.
+- **Headline:** section command headings use the headline role, reducing to 18px at the mobile breakpoint.
+- **Title:** project archive and research headings share the title size. Featured product names use 24px; capability and timeline headings use smaller contextual sizes.
+- **Body:** the page default is the body role. Most case, method and personal copy uses the reading role; research narrative uses 13px with 1.95 line height on desktop and 12px on mobile.
+- **Label:** controls and small links use the label role. Title bars, role labels and navigation metadata use 9–11px contextual sizes; these are supporting annotations rather than continuous reading.
 
-**The Pixel Emphasis Rule.** Use Pixelify for selected heading words and small pixel marks; preserve Manrope for explanatory prose and controls.
+**The Single Voice Rule.** Keep the same licensed monospace family across headings, prose, code and controls; use bold selectively for hierarchy.
 
 ## Layout
 
-The shared desktop container is `min(1280px, calc(100% - 112px))`. Through 1050px its total gutter becomes 64px; through 760px it becomes 40px; through 380px it becomes 32px. This preserves reading width while supporting the 320px minimum viewport.
+The shared container is `min(1160px, calc(100% - 80px))`. Total gutters become 56px through 1050px, 32px through 760px and 24px through 380px. Layout supports a 320px viewport.
 
-The desktop hero has a `1.08fr 1fr` split between text and the scene. Most editorial sections use two columns with generous 60–90px separation; featured cards have a 22px gap. Section padding is generally about 85–110px on desktop and about 63–65px on mobile. Spacing is contextual rather than a rigid modular scale; the frontmatter names only recurring small gaps.
+The desktop hero divides available width into `minmax(0, 1fr)` and `minmax(0, 2fr)` with a 36px gap: terminal left, black hole right. The scene follows a 416 / 288 aspect ratio. At 760px the regions stack with a 38px gap; the scene remains proportional and has a 640px maximum width. Terminal body padding is 26px 24px 20px on desktop and 25px 18px 17px on mobile, with narrower horizontal padding at the smallest breakpoint.
 
-At 760px the hero, featured work, capabilities, journey, about and contact stack. The scene centers below the copy; decorative journey and about marks disappear. Project archive rows retain title/action alignment and place their description and expanded story below. The code block permits its own horizontal scroll. Mobile navigation wraps without JavaScript and becomes a button-controlled menu with JavaScript.
+Content sections generally use 65px vertical padding, reducing to 43px on mobile. Featured projects are separated rows with an identity column and a wider explanation column. Research uses a 1.1fr / 1fr split and a 65px gap between narrative and methods. Capabilities, journey, about and contact also use two-column reading layouts. At 760px these stack; project archive descriptions and open disclosures flow below their titles. Code may scroll within its own container. Spacing is contextual; the frontmatter names recurring small gaps rather than inventing a rigid modular scale.
+
+The sticky header is 84px high on desktop and at least 72px on mobile. Mobile navigation remains wrapped and visible without JavaScript. With JavaScript, the right-aligned 44px trigger opens a fixed disclosure at top 72px, left/right 16px. Its own vertical overflow is scrollable and opening it does not shift the hero.
 
 ## Elevation & Depth
 
-The interface uses no box shadows. Contrast between night, deep night, paper and the individual product fields supplies depth. Thin rules separate navigation, archive rows and disclosures. Product illustrations layer flat notes through offset and a small static rotation; the black hole's depth comes from procedural particle layering rather than blurred interface effects.
+Content panels are flat. The mobile navigation disclosure alone uses a static `0 16px 40px #0009` shadow to separate the open overlay from content. A fixed global canvas and repeating SVG starfield fallback occupy the background layer; semantic content sits above them. Dark translucent terminal and project fields preserve the shared environment. Fine borders distinguish content without introducing floating card effects. The black hole creates depth through procedural thermal bands, a dark core and plasma detail.
 
-**The Flat Surface Rule.** Use tonal fields and fine separators for interface depth; keep illustrative layering within the artwork.
+**The Flat Interface Rule.** Convey content depth through dark tonal layering and fine rules; reserve luminous depth for the cosmic artwork and static elevation for the mobile navigation overlay.
 
 ## Shapes
 
-Controls have small corners from the control token; featured containers and illustrative notes use the surface token. Code windows remain square. Square dots and pixel silhouettes carry the identity; circles remain native to planets and orbital paths. Arrow, menu and disclosure icons are inline SVG strokes, not text glyphs.
+Controls and terminal windows are square. Borders are thin and restrained. Square pixel material defines the artwork; curved accretion geometry and the tiny planet remain native to the space world. Action, menu and disclosure icons are inline SVG strokes.
 
 ## Components
 
-### Buttons
+### Buttons and Filters
 
-Bold, compact action anchors use the frontmatter padding and a minimum height of 54px. The lime variant lives on dark fields; the dark variant lives in the lime contact field. Hover lifts them 3px and changes their fill. Focus uses a 3px outline with 6px offset: coral on dark fields, darker green on pale fields and ink on contact.
+Primary actions are real anchors with square corners, a minimum 44px height and the frontmatter fill/padding. Hover changes the fill without movement. Focus uses a blue 2px outline with 5px offset. Filters use square bordered dark buttons; selected state has blue text, a lighter blue border and a blue-black fill, with `aria-pressed` expressing state. JavaScript reveals filters and announces the result count; all projects remain readable without it.
 
-### Filters
+### Terminal Panel and Command Field
 
-Small rectangular buttons have a 1px border, control corners, 8px by 19px padding and a 43px minimum height. Selected state uses ink/paper and `aria-pressed`. JavaScript reveals the controls, filters project articles and announces the result count. Without JavaScript all projects remain available.
+A bordered translucent panel has a compact title bar and readable body. The actual command form is progressively revealed by JavaScript. Its transparent input has a bottom rule, amber caret and a 44px height; a square 44px submit button uses blue iconography.
 
-### Cards / Containers
+Commands are allowlisted portfolio navigation: help, whoami, projects / ls projects, skills, research, journey / git log, about and contact, with the implemented file-style aliases. They print localized feedback and navigate existing section anchors. Unknown input returns help guidance and never executes system code. Opening projects resets filters to show all projects. Typing is optional because ordinary navigation remains available.
 
-Featured project fields use restrained corners and 35px desktop padding, reducing to 28px, 25px and then 21px at the narrower breakpoints. Each featured project carries its own pale illustrative field. Illustrations are labeled as such and do not establish a new global palette. The archive uses separated rows rather than repeating framed cards.
+### Project Rows and Disclosures
 
-### Disclosures
+Featured rows use a subdued translucent field and bottom rule; archive rows use separators. Native `details` and `summary` expose project stories, methods interpretation and education with no JavaScript requirement. Summaries have a minimum 44px interaction height, blue text and an SVG plus that rotates 45 degrees when open. Expanded copy retains generous reading line height.
 
-Native `details` and `summary` expose case stories and education without requiring JavaScript. Summaries offer a minimum 44px interaction height; their plus icon rotates 45 degrees when open. Expanded prose retains the reading size and generous line height.
+### Navigation and Contact
 
-### Navigation
+The monospace wordmark has a blue pixel mark and punctuation. Section and external navigation use real anchors. The active language button is blue and underlined, with `aria-pressed` expressing its state. The right-aligned mobile menu button is 44px square, has an accessible translated name and `aria-expanded`, opens the fixed navigation disclosure, closes after link selection, and returns focus when Escape closes it. A focus-revealed skip link precedes the header.
 
-The wordmark uses Chakra with lime punctuation. Real anchors provide section and external navigation. Navigation text is 14px; active language links gain lime color and an underline. The mobile menu button is 46px square, exposes `aria-expanded` and a translated name, closes after selecting a link, and returns focus to the button when Escape closes it. A focus-revealed skip link precedes the header.
+Contact uses a real mailto action and visible email address on the same dark environment. JavaScript adds a copy button and polite success or fallback status. GitHub, LinkedIn and X links appear in the hero and footer.
 
-### Product Orbit
+### Research Evidence
 
-The scene overlays three real project anchors on an abstract black hole and planets. Its desktop height is 555px, rising to 610px above 1600px; it becomes 470px through 1050px, 440px through 760px and 355px through 380px. A static inline fallback remains when canvas is unavailable.
+Applied research belongs to the same transcript. Narrative is paired with a methods definition list, a captioned table and a source link. Table rules are thin; a fixed table layout gives the component-name column 46% width. Tabular numerals align standardized associations and fit indices, with amber emphasizing the final RMSEA column. A dark bordered note precedes the table for the failed global model. SEM is explicitly identified as Structural Equation Modeling. The global PERMA model failed fit (GFI 0.659, RMSEA 0.146). All five component models report standardized inverse associations with emotional exhaustion alongside GFI and RMSEA; no annual wellbeing means appear. Public-source results remain attached to sample, methods, model-fit and observational interpretation context; native disclosure holds the longer interpretation. Content truth belongs in PRODUCT.md and the source, rather than becoming a decorative impact claim.
 
-Canvas uses a buffer at one third of its displayed dimensions, pixelated rendering, 1100 seeded particles and no more than 150 background stars. Static drawing is cached. Elapsed-time animation runs with requestAnimationFrame, caps drawing at about 30fps and clamps resumed gaps. Mouse movement adds a small eased offset. Hidden tabs, offscreen scenes, reduced-motion preference and manual pause stop animation. Reduced motion also removes CSS transitions, hover lifts and smooth scrolling; the visible motion control reports that state and is disabled while the preference applies.
+### Procedural Black Hole and Motion
 
-### Contact and Language
+The black hole is the sole hero artwork, with no orbital project labels and no visible pause control, following the user's final choice. The primary WebGL renderer uses a fixed 624×432 canvas; a mathematical Canvas renderer and inline SVG provide fallbacks. All artwork is code-drawn; the appearance reference is private review material, not a public bitmap asset. Bounds and outer taper keep transparent margins around the primary artwork.
 
-Contact is a real mailto action plus a visible address. JavaScript reveals a copy button and announces success or an actionable fallback in a polite status region; there is no contact form or input system.
+The global field draws 220 seeded stars at half viewport resolution. It contains no distant planets. Elapsed-time requestAnimationFrame drawing is capped near 30fps and resumed gaps are clamped. Hidden tabs stop animation. The hero artwork stops updating when offscreen while the global field continues behind visible content. Reduced motion renders still scenes and disables CSS transitions and smooth scrolling. The final interface does not expose a manual motion control.
 
-English is primary at `/`. Spanish at `/es/` uses the same HTML document and matching JSON message catalogs. JavaScript updates text, document language/title and translated accessibility attributes. Both routes preserve useful English HTML when JavaScript is disabled; a failed Spanish catalog shows an English notice. The implementation uses semantic HTML, CSS and vanilla JavaScript with no frontend framework or runtime dependencies.
+### Language and Progressive Enhancement
+
+The public canonical URL is `https://diorrego.github.io/diorrego/`. English is the default; enabled EN/ES buttons switch languages in place without changing this URL. The same HTML localizes text, document title/language, metadata, accessibility labels and alternative text through matching JSON catalogs. The legacy `/es/` route remains a local compatibility path. Without JavaScript the English HTML stays useful and language buttons remain disabled. A failed catalog preserves the last readable language and shows an English recovery notice. The current toolbox is plain readable content beneath capabilities, not an interactive console dependency.
+
+### Public Sharing and Machine-readable Profile
+
+English and Spanish social previews are raw JPEG assets at 1200×630 under `assets/og/`. They repeat terminal typography and the procedural black-hole world. Head metadata includes canonical, Open Graph and Twitter card fields, with localized preview URLs and alternative text. English remains the initial metadata fallback. Public `llms.txt`, `profile.md` and `sitemap.xml` live at the distribution root; the footer provides a visible `llms.txt` link. These companions share public product and research facts without exposing private review assets.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** preserve the abstract pixel, space and programming identity.
-- **Do** keep explanatory prose readable on contrasting fields.
-- **Do** provide real anchors, visible focus and useful English HTML fallbacks.
-- **Do** respect reduced motion and retain the manual animation control.
-- **Do** keep the bilingual experience in one HTML document with matching catalog keys.
+- **Do** preserve continuous near-black space across every section.
+- **Do** use silver reading text, blue navigation and amber prompt or result accents.
+- **Do** retain real anchors, native disclosures, visible focus and English HTML fallbacks.
+- **Do** respect reduced motion and pause offscreen hero drawing and hidden-tab animation.
+- **Do** keep bilingual visitor content in one HTML document with matching catalog keys.
+- **Do** pair research results with their methods, public source and interpretation.
 
 ### Don't:
 
-- **Don't** replace the cursor or intercept scrolling.
-- **Don't** turn the abstract artwork into an astronomical simulation.
-- **Don't** use pixel typography for continuous body copy.
-- **Don't** use illustrative scenes as evidence of actual product screenshots.
-- **Don't** add external font services, runtime dependencies or analytics without authorization.
+- **Don't** restore white/light section backgrounds, green accents or lime contact blocks.
+- **Don't** replace the licensed monospace system with the superseded display/body pairing.
+- **Don't** add orbital labels or a visible pause control to the final hero.
+- **Don't** replace the cursor, intercept scrolling or execute command input.
+- **Don't** promote scene thermal colors into unrelated interface fills.
+- **Don't** publish private reference captures or research material from ignored directories.

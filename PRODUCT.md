@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Semantic HTML, CSS and vanilla JavaScript, explicitly requested by Diego. Static portfolio with no frontend framework or runtime dependencies. The user chose code-first construction. Exactly one HTML document; JavaScript message catalogs provide English and Spanish. English is the main `/` route; `/es/` serves the same HTML with Spanish localization. Without JavaScript, useful English content remains available.
+Semantic HTML, CSS and vanilla JavaScript, explicitly requested by Diego. Static portfolio with no frontend framework or runtime dependencies. The user chose code-first construction. Exactly one HTML document; JavaScript message catalogs provide English and Spanish. English is primary; language buttons switch to Spanish in place without changing the URL. Without JavaScript, useful English content remains available.
 
 ## Users
 
@@ -28,7 +28,11 @@ Public project stories, capabilities, timeline, education and direct contact. Lo
 
 ## Brand Commitments
 
-Diego Orrego. The user pinned a terminal-like interface inside continuous space across the entire website: dark surfaces, stars, planets, black holes and abstract pixels. White/light section backgrounds, green accents and lime blocks were explicitly rejected. The hero must use the user-supplied black-hole pixel artwork, cover two thirds of desktop hero width, contain no orbital project labels, and have no visible pause control. Motion still honors system preferences. Technical implementation, comments, tests and commits are English. Visitor-facing copy is bilingual with English primary.
+Diego Orrego. The user pinned a terminal-like interface inside continuous space across the entire website: dark surfaces, stars, planets, black holes and abstract pixels. White/light section backgrounds, green accents and lime blocks were explicitly rejected. The hero must recreate the supplied black-hole reference entirely with procedural code, cover two thirds of desktop hero width, contain no orbital project labels, and have no visible pause control. Motion still honors system preferences. Technical implementation, comments, tests and commits are English. Visitor-facing copy is bilingual with English primary.
+
+## Applied Research
+
+The 2018 UdeC wellbeing research is a prominent scientific and statistical foundation of Diego’s work. It arose alongside helping establish Chile’s second Happiness Management Department at Clínica Dental Cumbre Sur and serving as Happiness Director. Foreground Structural Equation Modeling (SEM), maximum likelihood, validated measurement instruments and Mann–Whitney comparisons. Present this work as research, not as a degree deliverable. Distinguish the observed wellbeing change from universal causal claims.
 
 ## Evidence on Hand
 
