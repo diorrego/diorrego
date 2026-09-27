@@ -50,7 +50,7 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#inpla details').getAttribute('open'),'');
   await context.close();
  });
- test('image-based black hole animates without a pause control and respects reduced motion',async()=>{
+ test('procedural black hole animates without a pause control and respects reduced motion',async()=>{
   const {p,context}=await page();
   assert.equal(await p.locator('#motion-toggle').count(),0);
   await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
@@ -228,22 +228,30 @@ async function page(options={}){const context=await browser.newContext({viewport
   await context.close();
  });
 
- test('the supplied black hole occupies two thirds of the desktop hero without project overlays',async()=>{
+ test('the procedural black hole occupies two thirds of the desktop hero without project overlays',async()=>{
   const {p,context}=await page();
   const ratio=await p.evaluate(()=>document.querySelector('#universe').getBoundingClientRect().width/document.querySelector('.hero').getBoundingClientRect().width);
   assert.ok(ratio>=.64&&ratio<=.70,`hero art ratio ${ratio}`);
   assert.equal(await p.locator('#universe .orbit-node').count(),0);
   assert.equal(await p.locator('#universe a').count(),0);
-  const art=p.locator('#black-hole-reference');
-  assert.equal(await art.getAttribute('src'),'/assets/art/black-hole-pixel.png');
-  await art.evaluate(image=>image.decode());
-  assert.deepEqual(await art.evaluate(image=>[image.naturalWidth,image.naturalHeight]),[416,256]);
+  assert.equal(await p.locator('#black-hole-reference').count(),0);
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.procedural==='true');
   await context.close();
  });
- test('supplied artwork is a complete fallback without JavaScript',async()=>{
+ test('procedural geometry is a complete fallback without JavaScript',async()=>{
   const {p,context}=await page({javaScriptEnabled:false});
-  assert.equal(await p.locator('#black-hole-reference').isVisible(),true);
+  assert.equal(await p.locator('#black-hole-fallback').isVisible(),true);
   assert.equal(await p.locator('#universe').getAttribute('data-motion'),'static');
   assert.equal(await p.locator('[data-project]:visible').count(),9);
+  await context.close();
+ });
+
+ test('black-hole rendering is generated in code without loading the reference bitmap',async()=>{
+  const {p,context}=await page();const requests=[];
+  p.on('request',request=>requests.push(request.url()));await p.reload();
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  assert.equal(await p.locator('#universe').getAttribute('data-procedural'),'true');
+  assert.equal(requests.some(url=>url.includes('black-hole-pixel.png')),false);
+  assert.equal(await p.locator('#universe img').count(),0);
   await context.close();
  });

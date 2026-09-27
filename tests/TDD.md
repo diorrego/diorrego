@@ -45,3 +45,7 @@ The independent finish reviewer returned `ship` for the complete corrected surfa
 ## Supplied artwork and animated hero RED
 
 The user supplied a specific 416×256 pixel-art black hole, requested two thirds of the desktop hero width, removal of orbital labels and removal of the pause control. Tests first observed three failures: the old pause control remained, the art occupied about 37% of the hero, and the supplied image fallback was missing. New checks compare animated frames and require a stable reduced-motion frame.
+
+## Fully procedural artwork RED
+
+The user clarified that the attachment is reference only and the artwork must be recreated entirely in code. Tests now reject any reference bitmap request or image element, require a procedural renderer and a code-drawn no-JS fallback, and retain the two-thirds composition and reduced-motion checks.
