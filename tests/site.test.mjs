@@ -389,3 +389,15 @@ async function page(options={}){const context=await browser.newContext({viewport
   }
   await context.close();
  });
+
+ test('mobile menu overlays the page without shifting the hero and aligns its trigger right',async()=>{
+  const {p,context}=await page({viewport:{width:496,height:844}});await p.evaluate(()=>document.fonts.ready);
+  const trigger=p.getByRole('button',{name:'Open menu'});
+  const before=await p.locator('.hero').boundingBox();const buttonBounds=await trigger.boundingBox();
+  assert.ok(buttonBounds.x+buttonBounds.width>460,'menu trigger belongs on the right');
+  await trigger.click();
+  assert.equal(await p.locator('#navigation').evaluate(node=>getComputedStyle(node).position),'fixed');
+  const after=await p.locator('.hero').boundingBox();assert.equal(after.y,before.y);
+  await p.keyboard.press('Escape');assert.equal(await trigger.getAttribute('aria-expanded'),'false');
+  await context.close();
+ });
