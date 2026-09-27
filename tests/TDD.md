@@ -105,3 +105,9 @@ The user has explicitly authorized pushing to diorrego/diorrego, configuring Git
 ## Final finish review
 
 The independent Impeccable reviewer returned `ship` after the final desktop/mobile/Spanish captures were refreshed. Its full review confirms persistence, the pinned terminal-in-space world, fixed mobile navigation, explicit qualified SEM results, raw social previews and public metadata endpoints. No material fixes remain at that review scope. Capture artifacts are retained only in ignored review storage.
+
+## Account-root publication correction RED to GREEN
+
+The user corrected the required production URL to https://diorrego.github.io/. Tests were updated first and failed on the canonical/social metadata, llms.txt profile link and sitemap location. The implementation corrects all public absolute URLs, structured data, Markdown companions, README links and social-preview artwork. The account-site repository diorrego/diorrego.github.io publishes main from `/`; the profile repository mirrors the source and README.
+
+All 34 behavior tests pass in tests/green-account-root.log (ignored), and the standalone build contains 21 allowlisted files. Both 1200x630 JPGs were regenerated with the account-root footer URL and embedded provenance. No UI layout or research claims changed.

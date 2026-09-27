@@ -2,9 +2,9 @@
 
 Engineer, entrepreneur and product builder in Concepción, Chile. I move between business, design and code to build things people want to use.
 
-[Explore my website](https://diorrego.github.io/diorrego/) · [LinkedIn](https://www.linkedin.com/in/diorrego/) · [X](https://x.com/diorrego) · [Get in touch](mailto:diego@woku.app)
+[Explore my website](https://diorrego.github.io/) · [LinkedIn](https://www.linkedin.com/in/diorrego/) · [X](https://x.com/diorrego) · [Get in touch](mailto:diego@woku.app)
 
-[![Diego Orrego's terminal-in-space portfolio, with a procedural pixel black hole](assets/og/og-en.jpg)](https://diorrego.github.io/diorrego/)
+[![Diego Orrego's terminal-in-space portfolio, with a procedural pixel black hole](assets/og/og-en.jpg)](https://diorrego.github.io/)
 
 ## From understanding people to building products
 
@@ -22,7 +22,7 @@ I stay close to the problem and the people who live it. Research, product discov
 | [Wondeya](https://wondeya.com/) | Product experiences and experimentation. |
 | [Muveya](https://muveya.com/) | Product exploration. |
 
-The [portfolio](https://diorrego.github.io/diorrego/#projects) also covers mkt-cli, Toolgate, Torvi and stow, with project context and implementation notes.
+The [portfolio](https://diorrego.github.io/#projects) also covers mkt-cli, Toolgate, Torvi and stow, with project context and implementation notes.
 
 ## Scientific and statistical foundations
 
@@ -30,7 +30,7 @@ My 2018 applied research at Universidad de Concepción examined workplace wellbe
 
 The research used **structural equation modeling (SEM)** to investigate PERMA and emotional exhaustion with 174 staff respondents. The global model failed fit criteria (GFI 0.659, RMSEA 0.146). Separate models reported inverse associations for positive emotions, engagement, positive relationships, meaning and accomplishment. These are associations, with model-fit limitations, rather than causal reductions in burnout.
 
-[Read the research and model results](https://diorrego.github.io/diorrego/#research) · [Original public research PDF](https://repositorio.udec.cl/server/api/core/bitstreams/44fc5fab-5b09-49b1-b5a6-4e13c93eaa0d/content)
+[Read the research and model results](https://diorrego.github.io/#research) · [Original public research PDF](https://repositorio.udec.cl/server/api/core/bitstreams/44fc5fab-5b09-49b1-b5a6-4e13c93eaa0d/content)
 
 ## My toolbox
 
@@ -49,7 +49,7 @@ A terminal session inside continuous space, built with **HTML, CSS and vanilla J
 - Responsive layouts from 320px, keyboard access, useful no-JavaScript content and reduced-motion support.
 - Self-hosted JetBrains Mono, no runtime dependencies and no analytics.
 - English and Spanish raw JPG social previews, canonical/OG/X metadata and structured profile data.
-- Public [llms.txt](https://diorrego.github.io/diorrego/llms.txt), [Markdown profile](https://diorrego.github.io/diorrego/profile.md) and [XML sitemap](https://diorrego.github.io/diorrego/sitemap.xml).
+- Public [llms.txt](https://diorrego.github.io/llms.txt), [Markdown profile](https://diorrego.github.io/profile.md) and [XML sitemap](https://diorrego.github.io/sitemap.xml).
 
 Try `help`, `whoami`, `ls projects`, `skills`, `research`, `git log`, `journey`, `about` or `contact`. These commands navigate the portfolio; they do not run shell commands.
 
@@ -72,7 +72,7 @@ The Playwright suite checks visitor behavior, accessibility, language changes, r
 
 `public-files.txt` defines the standalone build. `npm run build` copies those files into `dist/`, with exactly one HTML document. The development server uses the same allowlist. Local research and authenticated captures stay in the Git-ignored `documentos/` directory.
 
-GitHub Pages publishes **main, root `/`**, at https://diorrego.github.io/diorrego/. Relative asset paths support the project prefix; production language changes do not require redirects. The local `/es/` alias is retained only for legacy preview compatibility.
+GitHub Pages publishes **main, root `/`**, from `diorrego/diorrego.github.io` at https://diorrego.github.io/. The `diorrego/diorrego` profile repository mirrors the source and README. Production language changes do not require redirects. The local `/es/` alias is retained only for legacy preview compatibility.
 
 Edit the English HTML fallback and its matching entries in `locales/en.json` and `locales/es.json` together. To regenerate social previews, run `node scripts/generate-social-images.mjs` while the development server is running. Never introduce an em dash into public copy or metadata.
 

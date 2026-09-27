@@ -2,7 +2,7 @@
 version: 1
 slug: "index-html"
 primary_target: "index.html"
-related_targets: ["https://diorrego.github.io/diorrego/", "local-route:/es/", "css/styles.css", "js/main.js", "js/black-hole.js", "js/space-background.js", "js/terminal.js", "js/i18n.js", "locales/en.json", "locales/es.json", "llms.txt", "profile.md", "sitemap.xml", "assets/og/og-en.jpg", "assets/og/og-es.jpg"]
+related_targets: ["https://diorrego.github.io/", "local-route:/es/", "css/styles.css", "js/main.js", "js/black-hole.js", "js/space-background.js", "js/terminal.js", "js/i18n.js", "locales/en.json", "locales/es.json", "llms.txt", "profile.md", "sitemap.xml", "assets/og/og-en.jpg", "assets/og/og-es.jpg"]
 ---
 
 # Portfolio experience
@@ -23,7 +23,7 @@ The research section sits between capabilities and journey, with narrative along
 
 ## Delivery constraints
 
-The canonical public URL is `https://diorrego.github.io/diorrego/`. One HTML defaults to English; JavaScript-enabled EN/ES buttons switch language in place on the same URL. Legacy `/es/` is local compatibility only. Useful English content remains without JavaScript. The right-aligned mobile menu trigger opens a fixed disclosure at top 72px and left/right 16px without shifting the hero. Reduced motion produces still scenes; hidden tabs stop animation and offscreen hero drawing pauses. Reference imagery remains in ignored review storage and is not a public asset. DESIGN.md records the final reusable system; PRODUCT.md records product truth.
+The canonical public URL is `https://diorrego.github.io/`. One HTML defaults to English; JavaScript-enabled EN/ES buttons switch language in place on the same URL. Legacy `/es/` is local compatibility only. Useful English content remains without JavaScript. The right-aligned mobile menu trigger opens a fixed disclosure at top 72px and left/right 16px without shifting the hero. Reduced motion produces still scenes; hidden tabs stop animation and offscreen hero drawing pauses. Reference imagery remains in ignored review storage and is not a public asset. DESIGN.md records the final reusable system; PRODUCT.md records product truth.
 
 Public English/Spanish social previews are raw 1200×630 JPEG files. Canonical, Open Graph and Twitter metadata reference the approved terminal and black-hole identity. Root `llms.txt`, `profile.md` and `sitemap.xml` provide public machine-readable companions, and the footer links `llms.txt`.
 
