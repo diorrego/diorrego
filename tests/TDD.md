@@ -49,3 +49,7 @@ The user supplied a specific 416×256 pixel-art black hole, requested two thirds
 ## Fully procedural artwork RED
 
 The user clarified that the attachment is reference only and the artwork must be recreated entirely in code. Tests now reject any reference bitmap request or image element, require a procedural renderer and a code-drawn no-JS fallback, and retain the two-thirds composition and reduced-motion checks.
+
+## Complete responsive framing RED → GREEN
+
+The user identified cropped outer matter, particularly on mobile, and requested additional separation from the terminal. A new test checks that the canvas stays inside viewports from 320 to 1920px and that all four edges retain a transparent five-pixel margin. The implementation fits the complete tilted disk bounds, softly terminates its outer wisps inside those bounds, and increases desktop/mobile spacing.

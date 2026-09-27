@@ -28,6 +28,17 @@ before(async()=>{
  browser=await chromium.launch({headless:true,executablePath});
 });
 after(async()=>{await browser?.close(); await new Promise(r=>server?.close(r));});
+async function canvasPixels(locator) {
+ return locator.evaluate(canvas=>{
+  let pixels;
+  const gl=canvas.getContext('webgl');
+  if(gl){ pixels=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels); }
+  else pixels=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+  let hash=2166136261;
+  for(let i=0;i<pixels.length;i++)hash=Math.imul(hash^pixels[i],16777619);
+  return hash>>>0;
+ });
+}
 async function page(options={}){const context=await browser.newContext({viewport:{width:1440,height:1000},...options});context.setDefaultTimeout(1500);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url);return {p,context};}
 
  test('profile and navigation expose real projects, history and contact',async()=>{
@@ -55,14 +66,14 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#motion-toggle').count(),0);
   await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await p.locator('#universe').getAttribute('data-motion'),'running');
-  const first=await p.locator('#space-canvas').screenshot();await p.waitForTimeout(600);
-  const second=await p.locator('#space-canvas').screenshot();assert.equal(first.equals(second),false);
+  const first=await canvasPixels(p.locator('#space-canvas'));await p.waitForTimeout(600);
+  const second=await canvasPixels(p.locator('#space-canvas'));assert.notEqual(first,second);
   await context.close();
   const reduced=await page({reducedMotion:'reduce'});
   await reduced.p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await reduced.p.locator('#universe').getAttribute('data-motion'),'reduced');
-  const still=await reduced.p.locator('#space-canvas').screenshot();await reduced.p.waitForTimeout(400);
-  const stillLater=await reduced.p.locator('#space-canvas').screenshot();assert.equal(still.equals(stillLater),true);
+  const still=await canvasPixels(reduced.p.locator('#space-canvas'));await reduced.p.waitForTimeout(400);
+  const stillLater=await canvasPixels(reduced.p.locator('#space-canvas'));assert.equal(still,stillLater);
   await reduced.context.close();
  });
  test('mobile menu, keyboard navigation and overflow from 320px',async()=>{
@@ -253,5 +264,27 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#universe').getAttribute('data-procedural'),'true');
   assert.equal(requests.some(url=>url.includes('black-hole-pixel.png')),false);
   assert.equal(await p.locator('#universe img').count(),0);
+  await context.close();
+ });
+
+ test('the complete animated disk keeps a transparent margin at every viewport size',async()=>{
+  const {p,context}=await page();
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  for(const width of [320,390,768,1280,1440,1920]){
+   await p.setViewportSize({width,height:1000});
+   const bounds=await p.locator('#universe').boundingBox();
+   assert.ok(bounds.x>=0&&bounds.x+bounds.width<=width+1,`art exceeds viewport at ${width}`);
+  }
+  const edgeInk=await p.locator('#space-canvas').evaluate(canvas=>{
+   let pixels;const gl=canvas.getContext('webgl');
+   if(gl){pixels=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);}
+   else pixels=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+   let count=0;
+   for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
+    if(x<5||y<5||x>=canvas.width-5||y>=canvas.height-5){if(pixels[(y*canvas.width+x)*4+3]>0)count++;}
+   }
+   return count;
+  });
+  assert.equal(edgeInk,0,'the outer disk must end before all four canvas edges');
   await context.close();
  });
