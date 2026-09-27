@@ -50,16 +50,19 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#inpla details').getAttribute('open'),'');
   await context.close();
  });
- test('animation supports manual pause and respects reduced motion',async()=>{
+ test('image-based black hole animates without a pause control and respects reduced motion',async()=>{
   const {p,context}=await page();
-  await p.getByRole('button',{name:'Pause animations'}).click();
-  assert.equal(await p.locator('#universe').getAttribute('data-motion'),'paused');
-  assert.equal(await p.getByRole('button',{name:'Resume animations'}).getAttribute('aria-pressed'),'true');
-  await p.getByRole('button',{name:'Resume animations'}).click();assert.equal(await p.locator('#universe').getAttribute('data-motion'),'running');
+  assert.equal(await p.locator('#motion-toggle').count(),0);
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  assert.equal(await p.locator('#universe').getAttribute('data-motion'),'running');
+  const first=await p.locator('#space-canvas').screenshot();await p.waitForTimeout(600);
+  const second=await p.locator('#space-canvas').screenshot();assert.equal(first.equals(second),false);
   await context.close();
   const reduced=await page({reducedMotion:'reduce'});
+  await reduced.p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
   assert.equal(await reduced.p.locator('#universe').getAttribute('data-motion'),'reduced');
-  assert.equal(await reduced.p.getByRole('button',{name:'Reduced motion'}).isDisabled(),true);
+  const still=await reduced.p.locator('#space-canvas').screenshot();await reduced.p.waitForTimeout(400);
+  const stillLater=await reduced.p.locator('#space-canvas').screenshot();assert.equal(still.equals(stillLater),true);
   await reduced.context.close();
  });
  test('mobile menu, keyboard navigation and overflow from 320px',async()=>{
@@ -171,7 +174,7 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
   assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
   assert.match(await p.locator('#locale-status').innerText(),/Reload to try again/);
-  assert.equal(await p.getByRole('button',{name:'Pause animations'}).isVisible(),true);
+  assert.equal(await p.locator('#motion-toggle').count(),0);
   await context.close();
  });
 
@@ -222,5 +225,25 @@ async function page(options={}){const context=await browser.newContext({viewport
   const text=await p.locator('#capabilities .tech-line').innerText();
   assert.equal(/Python/i.test(text),false);
   for(const tool of ['Azure','LangSmith','Orca','Claude Code','Kimi','Codex','OpenCode'])assert.ok(text.includes(tool),`missing ${tool}`);
+  await context.close();
+ });
+
+ test('the supplied black hole occupies two thirds of the desktop hero without project overlays',async()=>{
+  const {p,context}=await page();
+  const ratio=await p.evaluate(()=>document.querySelector('#universe').getBoundingClientRect().width/document.querySelector('.hero').getBoundingClientRect().width);
+  assert.ok(ratio>=.64&&ratio<=.70,`hero art ratio ${ratio}`);
+  assert.equal(await p.locator('#universe .orbit-node').count(),0);
+  assert.equal(await p.locator('#universe a').count(),0);
+  const art=p.locator('#black-hole-reference');
+  assert.equal(await art.getAttribute('src'),'/assets/art/black-hole-pixel.png');
+  await art.evaluate(image=>image.decode());
+  assert.deepEqual(await art.evaluate(image=>[image.naturalWidth,image.naturalHeight]),[416,256]);
+  await context.close();
+ });
+ test('supplied artwork is a complete fallback without JavaScript',async()=>{
+  const {p,context}=await page({javaScriptEnabled:false});
+  assert.equal(await p.locator('#black-hole-reference').isVisible(),true);
+  assert.equal(await p.locator('#universe').getAttribute('data-motion'),'static');
+  assert.equal(await p.locator('[data-project]:visible').count(),9);
   await context.close();
  });

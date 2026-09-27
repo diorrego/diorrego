@@ -20,7 +20,7 @@ Preserve verified facts. Inpla's role ended in January 2026. The Innovation and 
 
 ## Mandatory TDD
 
-Write meaningful behavior tests before implementing each behavior, run them and observe RED, implement until GREEN, then refactor while keeping tests green. Test visitor outcomes rather than mirroring internal functions. Record evidence in `tests/TDD.md`. Cover navigation, filtering, project details, contact, keyboard access, no-JS content, reduced motion, manual animation pause, responsive overflow and public asset boundaries.
+Write meaningful behavior tests before implementing each behavior, run them and observe RED, implement until GREEN, then refactor while keeping tests green. Test visitor outcomes rather than mirroring internal functions. Record evidence in `tests/TDD.md`. Cover navigation, filtering, project details, contact, keyboard access, no-JS content, reduced motion, automatic animation lifecycle, responsive overflow and public asset boundaries.
 
 ## Local Git workflow
 
@@ -32,7 +32,7 @@ Apply the impeccable skill for interface work; explicit user instructions overri
 
 ## Animation and performance
 
-Use a bounded procedural canvas for square particles, stars, planets and the black hole. Use elapsed time with requestAnimationFrame; pause when hidden or offscreen. Respect prefers-reduced-motion in CSS and JS and provide a manual pause control. Cache static drawing and cap scene resolution and particle count. Prefer transform and opacity; avoid continuous layout, large blur or shadow animation. No flashing. The scene is abstract art, not an astronomical simulation.
+Use a bounded procedural canvas for the starfield and a dedicated image-based WebGL renderer for the supplied black-hole artwork. Preserve its source pixels and crisp sampling; desktop art occupies two thirds of the hero. No project labels overlay the artwork. Use elapsed time with requestAnimationFrame; pause when hidden or offscreen. Respect prefers-reduced-motion in CSS and JS and do not add a visible pause control, as explicitly requested by the user. Cache static drawing and cap scene resolution and particle count. Prefer transform and opacity; avoid continuous layout, large blur or shadow animation. No flashing. The scene is abstract art, not an astronomical simulation.
 
 ## Verification
 
