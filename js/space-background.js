@@ -20,16 +20,6 @@ export function createSpaceBackground() {
     canvas.width = width;
     canvas.height = height;
   }
-  function planet(x, y, radius, color) {
-    context.fillStyle = color;
-    for (let py = -radius; py <= radius; py++) {
-      for (let px = -radius; px <= radius; px++) {
-        if (px * px + py * py > radius * radius) continue;
-        if ((px + py) % 3 === 0) continue;
-        context.fillRect(Math.round(x + px), Math.round(y + py), 1, 1);
-      }
-    }
-  }
   function render(time) {
     context.fillStyle = '#05070b';
     context.fillRect(0, 0, width, height);
@@ -37,9 +27,6 @@ export function createSpaceBackground() {
       context.fillStyle = star.color;
       context.fillRect(Math.round(star.x * width), Math.round(((star.y + time * star.speed) % 1) * height), star.size, 1);
     }
-    // Distant pixel matter stays subdued so foreground text remains readable.
-    planet(width * 0.04, height * 0.65, Math.min(18, width * 0.055), '#152235');
-    planet(width * 0.95, height * 0.27, Math.min(12, width * 0.035), '#28212b');
   }
   resize();
   render(0);

@@ -12,3 +12,10 @@ assets/fonts/jetbrains-mono-LICENSE.txt
 assets/starfield.svg
 js/terminal.js
 js/space-background.js
+js/black-hole.js
+.nojekyll
+assets/og/og-en.jpg
+assets/og/og-es.jpg
+llms.txt
+profile.md
+sitemap.xml
