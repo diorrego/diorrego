@@ -31,3 +31,7 @@ Final commits and merge are performed only after GREEN. No pull requests, remote
 ## Terminal-in-space redesign RED
 
 The user rejected the light reading fields and green accents, and pinned a terminal-like interface inside continuous space across the whole website. Tests were changed before the redesign. The local `red-terminal.log` records failures for the old marketing heading, light surfaces, missing fixed starfield, missing command input and missing localized command recovery. Existing project, language, accessibility and no-JS contracts remain in place.
+
+## Profile corrections RED
+
+Additional tests first failed for the missing X links and the outdated toolbox. The implementation adds X in the introduction and footer, and updates the tool list exactly to the user's declarations. The dedicated failing output is retained locally in `red-profile-corrections.log`.

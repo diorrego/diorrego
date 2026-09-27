@@ -209,3 +209,18 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.match(await p.locator('#terminal-output').innerText(),/Comando desconocido/);
   await context.close();
  });
+
+ test('X profile is available in the introduction and footer',async()=>{
+  const {p,context}=await page();
+  assert.equal(await p.locator('.hero-links a[href="https://x.com/diorrego"]').count(),1);
+  assert.equal(await p.locator('footer a[href="https://x.com/diorrego"]').count(),1);
+  await context.close();
+ });
+
+ test('toolbox reflects the current declared tools',async()=>{
+  const {p,context}=await page();
+  const text=await p.locator('#capabilities .tech-line').innerText();
+  assert.equal(/Python/i.test(text),false);
+  for(const tool of ['Azure','LangSmith','Orca','Claude Code','Kimi','Codex','OpenCode'])assert.ok(text.includes(tool),`missing ${tool}`);
+  await context.close();
+ });
