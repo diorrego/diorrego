@@ -1,0 +1,15 @@
+index.html
+css/styles.css
+js/main.js
+assets/favicon.svg
+assets/fonts/chakra-petch-0.ttf
+assets/fonts/chakra-petch-LICENSE.txt
+assets/fonts/manrope-regular.ttf
+assets/fonts/manrope-0.ttf
+assets/fonts/manrope-LICENSE.txt
+assets/fonts/pixelify-sans-0.ttf
+assets/fonts/pixelify-sans-LICENSE.txt
+js/i18n.js
+locales/en.json
+locales/es.json
+_redirects

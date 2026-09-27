@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-27T01:04:08.635036+00:00",
+  "title": "Design System: Diego Orrego",
+  "extensions": {
+    "colorMeta": {
+      "night": {
+        "role": "neutral",
+        "displayName": "Night",
+        "tonalRamp": [
+          "oklch(15% 0.0246 259.26)",
+          "oklch(26% 0.0246 259.26)",
+          "oklch(38% 0.0246 259.26)",
+          "oklch(49% 0.0246 259.26)",
+          "oklch(61% 0.0246 259.26)",
+          "oklch(72% 0.0246 259.26)",
+          "oklch(84% 0.0246 259.26)",
+          "oklch(95% 0.0246 259.26)"
+        ]
+      },
+      "night-deep": {
+        "role": "neutral",
+        "displayName": "Deep night",
+        "tonalRamp": [
+          "oklch(15% 0.0210 258.31)",
+          "oklch(26% 0.0210 258.31)",
+          "oklch(38% 0.0210 258.31)",
+          "oklch(49% 0.0210 258.31)",
+          "oklch(61% 0.0210 258.31)",
+          "oklch(72% 0.0210 258.31)",
+          "oklch(84% 0.0210 258.31)",
+          "oklch(95% 0.0210 258.31)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0051 228.82)",
+          "oklch(26% 0.0051 228.82)",
+          "oklch(38% 0.0051 228.82)",
+          "oklch(49% 0.0051 228.82)",
+          "oklch(61% 0.0051 228.82)",
+          "oklch(72% 0.0051 228.82)",
+          "oklch(84% 0.0051 228.82)",
+          "oklch(95% 0.0051 228.82)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0262 248.93)",
+          "oklch(26% 0.0262 248.93)",
+          "oklch(38% 0.0262 248.93)",
+          "oklch(49% 0.0262 248.93)",
+          "oklch(61% 0.0262 248.93)",
+          "oklch(72% 0.0262 248.93)",
+          "oklch(84% 0.0262 248.93)",
+          "oklch(95% 0.0262 248.93)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0295 256.51)",
+          "oklch(26% 0.0295 256.51)",
+          "oklch(38% 0.0295 256.51)",
+          "oklch(49% 0.0295 256.51)",
+          "oklch(61% 0.0295 256.51)",
+          "oklch(72% 0.0295 256.51)",
+          "oklch(84% 0.0295 256.51)",
+          "oklch(95% 0.0295 256.51)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0.0332 252.08)",
+          "oklch(26% 0.0332 252.08)",
+          "oklch(38% 0.0332 252.08)",
+          "oklch(49% 0.0332 252.08)",
+          "oklch(61% 0.0332 252.08)",
+          "oklch(72% 0.0332 252.08)",
+          "oklch(84% 0.0332 252.08)",
+          "oklch(95% 0.0332 252.08)"
+        ]
+      },
+      "lime": {
+        "role": "primary",
+        "displayName": "Action lime",
+        "tonalRamp": [
+          "oklch(15% 0.1367 120.21)",
+          "oklch(26% 0.1367 120.21)",
+          "oklch(38% 0.1367 120.21)",
+          "oklch(49% 0.1367 120.21)",
+          "oklch(61% 0.1367 120.21)",
+          "oklch(72% 0.1367 120.21)",
+          "oklch(84% 0.1367 120.21)",
+          "oklch(95% 0.1367 120.21)"
+        ]
+      },
+      "coral": {
+        "role": "secondary",
+        "displayName": "Orbital coral",
+        "tonalRamp": [
+          "oklch(15% 0.1016 39.42)",
+          "oklch(26% 0.1016 39.42)",
+          "oklch(38% 0.1016 39.42)",
+          "oklch(49% 0.1016 39.42)",
+          "oklch(61% 0.1016 39.42)",
+          "oklch(72% 0.1016 39.42)",
+          "oklch(84% 0.1016 39.42)",
+          "oklch(95% 0.1016 39.42)"
+        ]
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Atmospheric blue",
+        "tonalRamp": [
+          "oklch(15% 0.0477 234.49)",
+          "oklch(26% 0.0477 234.49)",
+          "oklch(38% 0.0477 234.49)",
+          "oklch(49% 0.0477 234.49)",
+          "oklch(61% 0.0477 234.49)",
+          "oklch(72% 0.0477 234.49)",
+          "oklch(84% 0.0477 234.49)",
+          "oklch(95% 0.0477 234.49)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "pixel": {
+        "displayName": "Pixel emphasis",
+        "purpose": "Selected heading words, not body prose."
+      },
+      "reading": {
+        "displayName": "Reading",
+        "purpose": "Project evidence and explanatory content."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "state-ease",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "Button lift, orbit anchor lift and disclosure rotation."
+      },
+      {
+        "name": "state-color",
+        "value": ".2s",
+        "purpose": "Color and background changes."
+      },
+      {
+        "name": "state-lift",
+        "value": ".25s",
+        "purpose": "3px button and orbit-anchor hover lift."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1600px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "1050px"
+      },
+      {
+        "name": "stacked",
+        "value": "760px"
+      },
+      {
+        "name": "small-mobile",
+        "value": "380px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Lime action",
+      "kind": "button",
+      "refersTo": "button-lime",
+      "description": "Primary action anchor on its contrasting field.",
+      "html": "<a class=\"ds-button\" href=\"#projects\">Explore projects</a>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:54px;padding:14px 23px;font:700 14px Manrope,sans-serif;text-decoration:none;border:1px solid transparent;border-radius:3px;transition:transform .25s cubic-bezier(.16,1,.3,1),background .2s}.ds-button:hover{transform:translateY(-3px)}.ds-button:focus-visible{outline:3px solid var(--coral,#ffaf94);outline-offset:6px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}.ds-button:hover{transform:none}}.ds-button{background:var(--lime,#ddf78b);color:var(--ink,#17222d)}.ds-button:hover{background:#e8ffa6}"
+    },
+    {
+      "name": "Dark action",
+      "kind": "button",
+      "refersTo": "button-dark",
+      "description": "Primary action anchor on its contrasting field.",
+      "html": "<a class=\"ds-button\" href=\"#projects\">Explore projects</a>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:54px;padding:14px 23px;font:700 14px Manrope,sans-serif;text-decoration:none;border:1px solid transparent;border-radius:3px;transition:transform .25s cubic-bezier(.16,1,.3,1),background .2s}.ds-button:hover{transform:translateY(-3px)}.ds-button:focus-visible{outline:3px solid var(--coral,#ffaf94);outline-offset:6px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}.ds-button:hover{transform:none}}.ds-button{background:var(--ink,#17222d);color:var(--paper,#edf1f3)}.ds-button:hover{background:#263646}"
+    },
+    {
+      "name": "Project filter",
+      "kind": "chip",
+      "refersTo": "filter-selected",
+      "description": "Pressed filter state for the project archive.",
+      "html": "<button class=\"ds-filter\" aria-pressed=\"true\">All projects</button>",
+      "css": ".ds-filter{background:var(--ink,#17222d);color:var(--paper,#edf1f3);border:1px solid var(--ink,#17222d);border-radius:3px;padding:8px 19px;min-height:43px;font:12px Manrope,sans-serif;cursor:pointer}.ds-filter:hover{border-color:var(--ink,#17222d)}.ds-filter:focus-visible{outline:3px solid #476509;outline-offset:6px}"
+    },
+    {
+      "name": "Section navigation",
+      "kind": "nav",
+      "description": "Real anchors in the dark page header.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a href=\"#projects\">Projects</a><a href=\"#contact\">Contact</a></nav>",
+      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:24px;background:var(--night,#101722);color:var(--paper,#edf1f3)}.ds-nav a{font:14px Manrope,sans-serif;text-decoration:none;padding:14px 0}.ds-nav a:hover{color:var(--lime,#ddf78b)}.ds-nav a:focus-visible{outline:3px solid var(--coral,#ffaf94);outline-offset:6px}"
+    },
+    {
+      "name": "Featured project",
+      "kind": "card",
+      "description": "Flat illustrated project field, represented by the woku field.",
+      "html": "<article class=\"ds-card\"><h3>woku</h3><p>From customer feedback to action.</p><a href=\"#woku\">Read the story</a></article>",
+      "css": ".ds-card{background:#f7d8c7;color:var(--ink,#17222d);padding:35px;border-radius:4px}.ds-card h3{font:700 48px/1.06 Chakra,sans-serif;letter-spacing:-.035em;margin:0 0 12px}.ds-card p{font:14px/1.8 Manrope,sans-serif}.ds-card a{display:inline-flex;align-items:center;min-height:44px;color:inherit;font:700 12px Manrope,sans-serif}.ds-card a:hover{text-decoration:underline}.ds-card a:focus-visible{outline:3px solid #476509;outline-offset:6px}"
+    },
+    {
+      "name": "Native story disclosure",
+      "kind": "custom",
+      "description": "Keyboard-accessible disclosure that also works without JavaScript.",
+      "html": "<details class=\"ds-details\"><summary>Read the story<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h14M12 5v14\"/></svg></summary><p>Project evidence and contribution appear here.</p></details>",
+      "css": ".ds-details{color:var(--ink,#17222d);font:14px/1.85 Manrope,sans-serif}.ds-details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;font-size:12px;font-weight:700;cursor:pointer}.ds-details summary::-webkit-details-marker{display:none}.ds-details svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .2s cubic-bezier(.16,1,.3,1)}.ds-details[open] svg{transform:rotate(45deg)}.ds-details summary:focus-visible{outline:3px solid #476509;outline-offset:6px}@media(prefers-reduced-motion:reduce){.ds-details svg{transition:none}}"
+    },
+    {
+      "name": "Orbit project anchor",
+      "kind": "custom",
+      "description": "HTML anchor over the procedural scene.",
+      "html": "<a class=\"ds-orbit\" href=\"#woku\"><span></span>woku<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 19 19 5M5 5h14v14\"/></svg></a>",
+      "css": ".ds-orbit{display:inline-flex;align-items:center;gap:10px;min-height:40px;background:var(--night,#101722);color:var(--paper,#edf1f3);border-bottom:1px solid var(--line,#334151);padding:3px 8px;text-decoration:none;font:700 15px Chakra,sans-serif;transition:color .2s,transform .25s cubic-bezier(.16,1,.3,1)}.ds-orbit span{width:6px;height:6px;background:var(--coral,#ffaf94)}.ds-orbit svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;margin-left:8px}.ds-orbit:hover{color:var(--lime,#ddf78b);transform:translateY(-3px)}.ds-orbit:focus-visible{outline:3px solid var(--coral,#ffaf94);outline-offset:6px}@media(prefers-reduced-motion:reduce){.ds-orbit{transition:none}.ds-orbit:hover{transform:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Abstract pixel observatory",
+    "overview": "The user-pinned pixel, space and programming identity appears as crisp square particles, stars, planets, orbital links and readable code. The dark night field supports artwork and personal context; pale reading surfaces hold project evidence and the journey. Lime provides a clear action color, while coral and pale blue carry the abstract universe.\n\nThe system combines large technical headings with calm prose and compact supporting labels. Pixel typography emphasizes selected heading words rather than continuous reading. Procedural motion remains optional; the content and real links remain useful without animation or JavaScript.",
+    "keyCharacteristics": [
+      "Square pixel matter with small, restrained interface corners.",
+      "Dark artwork fields alternating with pale reading fields.",
+      "Technical display type, readable body type and selective pixel emphasis.",
+      "Real HTML controls around a bounded procedural scene."
+    ],
+    "rules": [
+      {
+        "name": "Reading Field",
+        "body": "Pair paper with ink for evidence-heavy content; pair night with paper and muted text for the personal universe.",
+        "section": "colors"
+      },
+      {
+        "name": "Pixel Emphasis",
+        "body": "Use Pixelify for selected heading words and small pixel marks; preserve Manrope for explanatory prose and controls.",
+        "section": "typography"
+      },
+      {
+        "name": "Flat Surface",
+        "body": "Use tonal fields and fine separators for interface depth; keep illustrative layering within the artwork.",
+        "section": "elevation & depth"
+      }
+    ],
+    "dos": [
+      "**Do** preserve the abstract pixel, space and programming identity.",
+      "**Do** keep explanatory prose readable on contrasting fields.",
+      "**Do** provide real anchors, visible focus and useful English HTML fallbacks.",
+      "**Do** respect reduced motion and retain the manual animation control.",
+      "**Do** keep the bilingual experience in one HTML document with matching catalog keys."
+    ],
+    "donts": [
+      "**Don't** replace the cursor or intercept scrolling.",
+      "**Don't** turn the abstract artwork into an astronomical simulation.",
+      "**Don't** use pixel typography for continuous body copy.",
+      "**Don't** use illustrative scenes as evidence of actual product screenshots.",
+      "**Don't** add external font services, runtime dependencies or analytics without authorization."
+    ]
+  }
+}
