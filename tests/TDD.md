@@ -75,3 +75,7 @@ The user reprioritized model results over simple annual averages. New checks req
 ## GitHub Pages root RED
 
 The user authorized pushing to diorrego/diorrego and publishing main at the repository root without query parameters. New tests require assets and catalogs to resolve under the GitHub Pages project prefix and language changes to keep the same clean URL. The static host uses one content HTML; languages change in place rather than requiring server rewrites.
+
+## Social metadata and punctuation RED
+
+The user requires raw English/Spanish JPG previews with English primary, complete social metadata, and no em dash in website or metadata. Tests require canonical/OG/X tags, the correct localized JPG URLs, actual JPEG signatures and a punctuation audit of the HTML, both catalogs and rendered metadata.

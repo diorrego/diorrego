@@ -358,3 +358,34 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#research').getByRole('heading',{name:'Modelos de ecuaciones estructurales · SEM',exact:true}).count(),1);
   await context.close();
  });
+
+ test('SEO metadata includes canonical URLs and English-first raw JPG social previews',async()=>{
+  const {p,context}=await page();
+  const enImage='https://diorrego.github.io/diorrego/assets/og/og-en.jpg';
+  assert.equal(await p.locator('link[rel="canonical"]').getAttribute('href'),'https://diorrego.github.io/diorrego/');
+  assert.equal(await p.locator('meta[property="og:image"]').getAttribute('content'),enImage);
+  assert.equal(await p.locator('meta[name="twitter:card"]').getAttribute('content'),'summary_large_image');
+  assert.equal(await p.locator('meta[name="twitter:image"]').getAttribute('content'),enImage);
+  await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();await p.waitForFunction(()=>document.documentElement.lang==='es');
+  assert.equal(await p.locator('meta[property="og:image"]').getAttribute('content'),'https://diorrego.github.io/diorrego/assets/og/og-es.jpg');
+  assert.equal(await p.locator('meta[property="og:locale"]').getAttribute('content'),'es_CL');
+  for(const language of ['en','es']){
+   const bytes=await readFile(`assets/og/og-${language}.jpg`);assert.equal(bytes[0],0xff);assert.equal(bytes[1],0xd8);
+  }
+  await context.close();
+ });
+ test('website text and metadata contain no em dash in either language',async()=>{
+  const html=await readFile('index.html','utf8');
+  const forbidden=String.fromCharCode(0x2014);
+  assert.equal(html.includes(forbidden),false);
+  for(const language of ['en','es']){
+   const data=await readFile(`locales/${language}.json`,'utf8');assert.equal(data.includes(forbidden),false);
+  }
+  const {p,context}=await page();
+  for(const language of ['en','es']){
+   if(language==='es'){await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();await p.waitForFunction(()=>document.documentElement.lang==='es');}
+   const content=await p.evaluate(()=>document.body.innerText+' '+document.title+' '+[...document.querySelectorAll('meta')].map(node=>node.content).join(' '));
+   assert.equal(content.includes(forbidden),false);
+  }
+  await context.close();
+ });
