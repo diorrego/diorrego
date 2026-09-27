@@ -426,3 +426,21 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(new URL(p.url()).search,'');
   await context.close();
  });
+
+ test('sitemap is public at the root and lists only the canonical page without parameters',async()=>{
+  const {p,context}=await page();
+  for(const prefix of ['', '/diorrego']){
+   const response=await p.request.get(url+prefix+'/sitemap.xml');
+   assert.equal(response.status(),200);
+   assert.match(response.headers()['content-type'],/xml/);
+   const xml=await response.text();
+   const parsed=await p.evaluate(source=>{
+    const document=new DOMParser().parseFromString(source,'application/xml');
+    return {error:!!document.querySelector('parsererror'),namespace:document.documentElement.namespaceURI,locations:[...document.querySelectorAll('loc')].map(node=>node.textContent)};
+   },xml);
+   assert.equal(parsed.error,false);
+   assert.equal(parsed.namespace,'http://www.sitemaps.org/schemas/sitemap/0.9');
+   assert.deepEqual(parsed.locations,['https://diorrego.github.io/diorrego/']);
+  }
+  await context.close();
+ });
