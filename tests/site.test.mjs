@@ -19,7 +19,7 @@ before(async()=>{
    const path=resolve(root,'.'+((mounted==='/'||mounted==='/es')?'/index.html':mounted));
    if(!path.startsWith(root+'/')) throw Error('invalid');
    const data=await readFile(path);
-   res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2'})[extname(path)]||'application/octet-stream');
+   res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.md':'text/markdown; charset=utf-8'})[extname(path)]||'application/octet-stream');
    res.end(data);
   }catch{res.writeHead(404);res.end('Not found');}
  }).listen(0,'127.0.0.1');
@@ -399,5 +399,30 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.equal(await p.locator('#navigation').evaluate(node=>getComputedStyle(node).position),'fixed');
   const after=await p.locator('.hero').boundingBox();assert.equal(after.y,before.y);
   await p.keyboard.press('Escape');assert.equal(await trigger.getAttribute('aria-expanded'),'false');
+  await context.close();
+ });
+
+ test('LLM overview is public at the site root and discoverable through the footer',async()=>{
+  const {p,context}=await page();
+  assert.equal(await p.locator('footer a[href="llms.txt"]').count(),1);
+  assert.equal(await p.locator('link[rel="describedby"][href="llms.txt"]').count(),1);
+  for(const prefix of ['', '/diorrego']){
+   const response=await p.request.get(url+prefix+'/llms.txt');
+   assert.equal(response.status(),200);
+   assert.match(response.headers()['content-type'],/text\/plain/);
+   const overview=await response.text();
+   assert.match(overview,/^# Diego Orrego\n/);
+   assert.match(overview,/\n> /);
+   assert.match(overview,/## Profile/);
+   assert.match(overview,/\[.*\]\(https:\/\/diorrego.github.io\/diorrego\/profile.md\)/);
+   assert.match(overview,/repositorio.udec.cl/);
+   assert.equal(overview.includes(String.fromCharCode(0x2014)),false);
+   const profile=await p.request.get(url+prefix+'/profile.md');
+   assert.equal(profile.status(),200);
+   assert.match(await profile.text(),/0.146/);
+  }
+  await p.locator('footer a[href="llms.txt"]').click();
+  assert.equal(new URL(p.url()).pathname,'/llms.txt');
+  assert.equal(new URL(p.url()).search,'');
   await context.close();
  });
