@@ -2,6 +2,7 @@ import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
@@ -22,7 +23,9 @@ before(async()=>{
  }).listen(0,'127.0.0.1');
  await new Promise(r=>server.once('listening',r));
  url=`http://127.0.0.1:${server.address().port}`;
- browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_TEST_BIN||'/home/marie/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome'});
+ const bundled=chromium.executablePath();
+ const executablePath=process.env.CHROME_TEST_BIN||(existsSync(bundled)?bundled:existsSync('/opt/google/chrome/chrome')?'/opt/google/chrome/chrome':bundled);
+ browser=await chromium.launch({headless:true,executablePath});
 });
 after(async()=>{await browser?.close(); await new Promise(r=>server?.close(r));});
 async function page(options={}){const context=await browser.newContext({viewport:{width:1440,height:1000},...options});context.setDefaultTimeout(1500);const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(url);return {p,context};}
@@ -141,5 +144,33 @@ async function page(options={}){const context=await browser.newContext({viewport
   const {p,context}=await page();await p.goto(url+'/es/');
   assert.match(await p.locator('pre').innerText(),/const product/);
   assert.equal(await p.locator('body').innerText().then(t=>/\{\{/.test(t)),false);
+  await context.close();
+ });
+
+ test('static distribution ships one HTML and an explicit Spanish route rewrite',async()=>{
+  const manifest=(await readFile('public-files.txt','utf8')).split('\n').filter(Boolean);
+  assert.deepEqual(manifest.filter(path=>path.endsWith('.html')),['index.html']);
+  assert.ok(manifest.includes('_redirects'));
+  const redirects=await readFile('_redirects','utf8');
+  assert.match(redirects,/\/es\/\s+\/index\.html\s+200/);
+  assert.ok(manifest.includes('locales/en.json')&&manifest.includes('locales/es.json'));
+ });
+
+ test('featured project metadata follows the project heading',async()=>{
+  const {p,context}=await page();
+  const order=await p.locator('.feature-copy').evaluateAll(elements=>elements.map(element=>{
+   const heading=element.querySelector('h3');const metadata=element.querySelector('.project-role');
+   return Boolean(heading.compareDocumentPosition(metadata)&Node.DOCUMENT_POSITION_FOLLOWING);
+  }));
+  assert.deepEqual(order,[true,true,true]);await context.close();
+ });
+ test('a failed Spanish catalog preserves English content and explains recovery',async()=>{
+  const {p,context}=await page();
+  await p.route('**/locales/es.json',route=>route.abort());await p.goto(url+'/es/');
+  await p.locator('#locale-status').waitFor({state:'visible'});
+  assert.equal(await p.locator('html').getAttribute('lang'),'en');
+  assert.match(await p.locator('h1').innerText(),/idea.*product/s);
+  assert.match(await p.locator('#locale-status').innerText(),/Reload to try again/);
+  assert.equal(await p.getByRole('button',{name:'Pause animations'}).isVisible(),true);
   await context.close();
  });
