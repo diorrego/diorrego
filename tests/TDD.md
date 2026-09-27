@@ -71,3 +71,7 @@ The test harness closes contexts after every case, including failures, and runs 
 ## SEM model results RED
 
 The user reprioritized model results over simple annual averages. New checks require the failed global PERMA fit, all five component-level standardized associations, fit indices and the absence of the annual-mean table. The source includes positive relationships at -0.251 (p=0.013), alongside the four associations summarized in the abstract.
+
+## GitHub Pages root RED
+
+The user authorized pushing to diorrego/diorrego and publishing main at the repository root without query parameters. New tests require assets and catalogs to resolve under the GitHub Pages project prefix and language changes to keep the same clean URL. The static host uses one content HTML; languages change in place rather than requiring server rewrites.

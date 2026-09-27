@@ -14,7 +14,9 @@ before(async()=>{
  server=createServer(async(req,res)=>{
   try {
    const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
-   const path=resolve(root,'.'+((pathname==='/'||pathname==='/es/')?'/index.html':pathname));
+   let mounted=pathname.startsWith('/diorrego/')?pathname.slice('/diorrego'.length):pathname;
+   if(mounted.startsWith('/es/'))mounted=mounted.slice(3)||'/';
+   const path=resolve(root,'.'+((mounted==='/'||mounted==='/es')?'/index.html':mounted));
    if(!path.startsWith(root+'/')) throw Error('invalid');
    const data=await readFile(path);
    res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2'})[extname(path)]||'application/octet-stream');
@@ -115,13 +117,13 @@ async function page(options={}){const context=await browser.newContext({viewport
  test('English is the primary route and JavaScript localizes the shared HTML into Spanish',async()=>{
   const {p,context}=await page();
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
-  await p.getByRole('link',{name:'Read in Spanish',exact:true}).click();
-  assert.equal(new URL(p.url()).pathname,'/es/');
+  await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();
+  assert.equal(new URL(p.url()).pathname,'/');
   await p.waitForFunction(()=>document.documentElement.lang==='es');
   assert.equal(await p.locator('html').getAttribute('lang'),'es');
   assert.equal(await p.locator('[data-project]:visible').count(),9);
   assert.match(await p.locator('h1').innerText(),/Diego Orrego/);
-  await p.getByRole('link',{name:'Leer en inglés',exact:true}).click();
+  await p.getByRole('button',{name:'Leer en inglés',exact:true}).click();
   assert.equal(new URL(p.url()).pathname,'/');
   assert.equal(await p.locator('html').getAttribute('lang'),'en');
   await context.close();
@@ -138,8 +140,7 @@ async function page(options={}){const context=await browser.newContext({viewport
   await p.locator('#inpla summary').click();
   assert.match(await p.locator('#inpla').innerText(),/enero de 2026/);
   assert.match(await p.title(),/producto/);
-  assert.equal(await p.locator('link[rel="alternate"][hreflang="en"]').getAttribute('href'),'/');
-  assert.equal(await p.locator('link[rel="alternate"][hreflang="es"]').getAttribute('href'),'/es/');
+  assert.equal(await p.locator('[data-language="es"]').getAttribute('aria-pressed'),'true');
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   assert.equal(await p.locator('body').innerText().then(t=>/\{\{/.test(t)),false);
   await context.close();
@@ -342,5 +343,18 @@ async function page(options={}){const context=await browser.newContext({viewport
   assert.match(text,/RMSEA/);assert.match(text,/0.146/);
   assert.equal(text.includes('7.46'),false);
   assert.equal(await section.locator('tbody tr').count(),5);
+  await context.close();
+ });
+
+ test('GitHub Pages project root loads its assets and changes languages without URL parameters',async()=>{
+  const {p,context}=await page();const requests=[];p.on('request',request=>requests.push(request.url()));
+  await p.goto(url+'/diorrego/');
+  await p.waitForFunction(()=>document.querySelector('#universe').dataset.artReady==='true');
+  assert.equal(await p.locator('html').getAttribute('lang'),'en');
+  await p.getByRole('button',{name:'Read in Spanish',exact:true}).click();
+  await p.waitForFunction(()=>document.documentElement.lang==='es');
+  assert.equal(new URL(p.url()).pathname,'/diorrego/');assert.equal(new URL(p.url()).search,'');
+  for(const request of requests.filter(path=>/\/(js|css|locales|assets)\//.test(path)))assert.ok(new URL(request).pathname.startsWith('/diorrego/'),request);
+  assert.equal(await p.locator('#research').getByRole('heading',{name:'Modelos de ecuaciones estructurales · SEM',exact:true}).count(),1);
   await context.close();
  });
