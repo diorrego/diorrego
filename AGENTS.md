@@ -2,15 +2,15 @@
 
 ## Purpose
 
-Build Diego Orrego's personal portfolio around product creation and entrepreneurship. Preserve the user-pinned abstract pixel, space and programming identity. The public website copy is Spanish.
+Build Diego Orrego's personal portfolio around product creation and entrepreneurship. Preserve the user-pinned abstract pixel, space and programming identity. The primary website language is English at `/`; Spanish is available at `/es/` through JavaScript catalogs and the same HTML document.
 
 ## Language
 
-All implementation identifiers, comments, test descriptions, technical documentation added from now on, branch names and commit messages must be English. Spanish is reserved for visitor-facing copy and the existing research documents.
+All implementation identifiers, comments, test descriptions, technical documentation added from now on, branch names and commit messages must be English. Spanish is reserved for translated visitor-facing copy and existing ignored research documents.
 
 ## Stack
 
-Semantic HTML, CSS and vanilla JavaScript. No frontend framework or runtime dependencies. Essential content lives in HTML; JavaScript progressively enhances interaction and animation. Self-host licensed fonts with fallbacks. Do not add analytics or external services without a specific request.
+Semantic HTML, CSS and vanilla JavaScript. Keep exactly one HTML source; locale catalogs live in `locales/en.json` and `locales/es.json` with matching keys. The `/es/` route serves the same HTML and JavaScript localizes text and accessibility attributes. Without JavaScript, both routes preserve the English fallback. No frontend framework or runtime dependencies. Essential content lives in HTML; JavaScript progressively enhances interaction and animation. Self-host licensed fonts with fallbacks. Do not add analytics or external services without a specific request.
 
 ## Content and privacy
 

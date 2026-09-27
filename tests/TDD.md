@@ -7,3 +7,7 @@ Behavior tests were authored and started before index.html, styles or applicatio
 The tests specify visitor behavior: real contact links, filters and project dates, motion controls, keyboard and responsive navigation, no-JS access, WCAG AA checks and the distribution boundary.
 
 The repository was initialized after the user requested local Git. The test commit on `feature/pixel-space-portfolio` precedes the implementation commit. No implementation was committed to main before the feature suite passed.
+
+## English and JavaScript localization RED
+
+The user changed the primary language to English and requested Spanish from the start, then clarified that localization should use JavaScript without duplicated HTML. Tests were updated before that implementation. `red-english.log`, `red-i18n.log` and `red-js-i18n.log` retain the failing local runs. The current contract tests English at `/`, Spanish messages at `/es/`, matching catalog keys, English programming examples, and an English no-JS fallback on both routes.
